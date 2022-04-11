@@ -16,11 +16,9 @@ class Builder {
           await _buildPlatform('windows');
           await Windows().package();
           break;
-        case Target.androidBundle:
+        case Target.android:
           await _buildPlatform('appbundle');
           await Android().moveAppBundle();
-          break;
-        case Target.androidApk:
           await _buildPlatform('apk');
           await Android().moveApk();
           break;

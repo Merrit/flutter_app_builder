@@ -71,19 +71,17 @@ class Environment {
 
   bool get targetingLinux => targets.contains(Target.linux);
   bool get targetingWindows => targets.contains(Target.windows);
-  bool get targetingAndroid => targets.contains(Target.androidBundle);
+  bool get targetingAndroid => targets.contains(Target.android);
 }
 
 enum Target {
   linux,
   windows,
-  androidBundle,
-  androidApk,
+  android,
 }
 
 const targetHashMap = {
   'linux': Target.linux,
   'windows': Target.windows,
-  'appbundle': Target.androidBundle,
-  'apk': Target.androidApk,
+  'android': Target.android,
 };
