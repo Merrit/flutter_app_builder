@@ -25,6 +25,8 @@ Future<void> main(List<String> arguments) async {
   final pubspecFile = File('pubspec.yaml');
   final pubspec = Pubspec(pubspecString: await pubspecFile.readAsString());
 
+  await cleanOutputDirectory();
+
   final environment = await Environment.initialize(
     argResults: argResults,
     pubspec: pubspec,
@@ -40,6 +42,11 @@ Future<void> main(List<String> arguments) async {
 
   await Builder().run();
   await environment.gitHub?.uploadArtifactsToDraftRelease();
+}
+
+Future<void> cleanOutputDirectory() async {
+  final output = Directory('output');
+  if (output.existsSync()) await output.delete(recursive: true);
 }
 
 Future<void> enableFlutterDesktop() async {
