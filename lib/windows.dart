@@ -45,8 +45,8 @@ class Windows {
     ZipFileEncoder().zipDirectory(_buildDir, filename: zipFileName);
     await portableFile.delete();
     // Move archive to output dir.
-    final portableArchive = File('$_buildPath\\$zipFileName');
-    await portableArchive.rename('${_env.outputDir.path}\\$zipFileName');
+    final archive = File('$_buildPath\\$zipFileName');
+    await archive.rename('${_env.outputDir.path}\\$zipFileName');
   }
 
   Future<void> _createInstaller() async {

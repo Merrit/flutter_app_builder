@@ -23,6 +23,7 @@ class Environment {
 
   final List<Target> targets;
   final Directory outputDir;
+  final Directory projectRoot;
 
   final bool runningInGithubCI;
   final GitHub? gitHub;
@@ -35,6 +36,7 @@ class Environment {
     required this.version,
     required this.targets,
     required this.outputDir,
+    required this.projectRoot,
     required this.runningInGithubCI,
     required this.gitHub,
   });
@@ -59,6 +61,7 @@ class Environment {
       version: pubspec.version,
       targets: targets,
       outputDir: Directory('output')..createSync(),
+      projectRoot: Directory.current,
       runningInGithubCI: runningInGitubCI,
       gitHub: runningInGitubCI ? GitHub.initialize() : null,
     );
