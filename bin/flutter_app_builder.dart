@@ -55,6 +55,10 @@ Future<void> getPackages() async {
 /// Verify pubspec version has been updated to match tag for release.
 void verifyPubspecVersion() {
   final env = Environment.instance;
+  final github = env.gitHub;
+
+  if (github == null) return;
+  if (github.eventName != 'push') return;
 
   final githubTagVersion = env.gitHub?.refName.substring(1);
   final pubspecVersion =
