@@ -13,7 +13,8 @@ class Builder {
           await Linux().package();
           break;
         case Target.windows:
-          await _buildPlatform('windows');
+          // Don't explicitly run build, as running the
+          // msix packager will run build itself.
           await Windows().package();
           break;
         case Target.android:

@@ -105,7 +105,7 @@ packages:
     source: hosted
     version: "2.1.2"
   glob:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: glob
       url: "https://pub.dartlang.org"
