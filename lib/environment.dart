@@ -64,7 +64,7 @@ class Environment {
           argResults['app-display-name'] ?? pubspec.appDisplayName ?? '',
       author: argResults['author'] ?? pubspec.author ?? '',
       identifier: argResults['identifier'] ?? pubspec.identifier ?? '',
-      msixIconPath: argResults['msi-icon-path'] ?? pubspec.msixIconPath ?? '',
+      msixIconPath: argResults['msix-icon-path'] ?? pubspec.msixIconPath ?? '',
       version: pubspec.version,
       targets: targets,
       outputDir: Directory('output')..createSync(),
