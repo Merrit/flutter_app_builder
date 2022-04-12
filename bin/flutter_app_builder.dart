@@ -19,6 +19,11 @@ Future<void> main(List<String> arguments) async {
     );
 
   final ArgResults argResults = parser.parse(arguments);
+
+  if (!argResults.wasParsed('platforms')) {
+    throw Exception('No target platforms were specified.');
+  }
+
   final targets = parser.parsePlatforms(
     argResults['platforms'] as List<String>,
   );
