@@ -6,6 +6,7 @@ class Pubspec {
   final String? appDisplayName;
   final String? author;
   final String? identifier;
+  final String? msixIconPath;
   final Version version;
 
   const Pubspec._({
@@ -13,6 +14,7 @@ class Pubspec {
     required this.appDisplayName,
     required this.author,
     required this.identifier,
+    required this.msixIconPath,
     required this.version,
   });
 
@@ -25,6 +27,7 @@ class Pubspec {
       appDisplayName: builderYaml['app_display_name'],
       author: builderYaml['author'],
       identifier: builderYaml['identifier'],
+      msixIconPath: builderYaml['msix_icon_path'],
       version: Version.parse(pubspec['version']),
     );
   }

@@ -12,6 +12,7 @@ Future<void> main(List<String> arguments) async {
     ..addOption('app-display-name')
     ..addOption('author')
     ..addOption('identifier')
+    ..addOption('msix-icon-path')
     ..addMultiOption(
       'platforms',
       allowed: ['linux', 'windows', 'android'],

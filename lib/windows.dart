@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:archive/archive_io.dart';
 import 'package:glob/glob.dart';
 import 'package:glob/list_local_fs.dart';
 
@@ -42,16 +41,18 @@ class Windows {
   Future<void> _compressPortable() async {
     final portableFile = File('$_buildPath\\PORTABLE')..createSync();
     final zipFileName = '${_env.appDisplayName}-Windows-Portable.zip';
-    ZipFileEncoder().zipDirectory(_buildDir, filename: zipFileName);
+    Terminal.runCommand(
+      command:
+          'compress-archive -Path ${_buildDir.absolute.path}\\* -DestinationPath ${_env.outputDir.absolute.path}\\$zipFileName',
+    );
     await portableFile.delete();
-    // Move archive to output dir.
-    final archive = File('$_buildPath\\$zipFileName');
-    await archive.rename('${_env.outputDir.path}\\$zipFileName');
   }
 
   Future<void> _createInstaller() async {
-    await Terminal.runCommand(command: 'flutter pub run msix:create');
-    // 'flutter pub run msix:create --display-name="${env.appDisplayName}" --publisher-display-name="${env.author}" --identity-name="${env.identifier}" --logo-path="" --capabilities="" --trim-logo=false --store=false',
+    await Terminal.runCommand(
+      command:
+          'flutter pub run msix:create --display-name="${_env.appDisplayName}" --publisher-display-name="${_env.author}" --identity-name="${_env.identifier}" --logo-path="${_env.msixIconPath}" --capabilities="" --trim-logo=false --store=false',
+    );
   }
 
   void _moveInstallerToOutput() {
