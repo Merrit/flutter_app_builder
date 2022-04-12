@@ -43,7 +43,7 @@ class Windows {
     final zipFileName = '${_env.appDisplayName}-Windows-Portable.zip';
     Terminal.runCommand(
       command:
-          'compress-archive -Path ${_buildDir.absolute.path}\\* -DestinationPath ${_env.outputDir.absolute.path}\\$zipFileName',
+          'compress-archive -Path ${_buildDir.absolute.path}\\* -DestinationPath "${_env.outputDir.absolute.path}\\$zipFileName"',
     );
     await portableFile.delete();
   }
