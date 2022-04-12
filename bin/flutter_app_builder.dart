@@ -35,7 +35,6 @@ Future<void> main(List<String> arguments) async {
 
   if (environment.runningInGithubCI) {
     await installDependencies();
-    await enableFlutterDesktop();
     await getPackages();
     verifyPubspecVersion();
   }
@@ -49,17 +48,8 @@ Future<void> cleanOutputDirectory() async {
   if (output.existsSync()) await output.delete(recursive: true);
 }
 
-Future<void> enableFlutterDesktop() async {
-  await Terminal.runCommand(command: '''
-flutter config --enable-linux-desktop
-flutter config --enable-macos-desktop
-flutter config --enable-windows-desktop''');
-}
-
 Future<void> getPackages() async {
-  await Terminal.runCommand(command: '''
-flutter upgrade
-flutter pub get''');
+  await Terminal.runCommand(command: 'flutter pub get');
 }
 
 /// Verify pubspec version has been updated to match tag for release.
