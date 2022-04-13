@@ -29,22 +29,22 @@ class Windows {
   Future<void> package() async {
     _log.info('Packaging Windows build.');
     await _createInstaller();
-    _moveInstallerToOutput();
     await _copyVCRuntime();
     await _compressPortable();
   }
 
   Future<void> _createInstaller() async {
     await Terminal.runCommand(
-      command:
-          'flutter pub run msix:create --display-name="${_env.appDisplayName}" --publisher-display-name="${_env.author}" --identity-name="${_env.identifier}" --logo-path="${_env.msixIconPath}" --capabilities="" --trim-logo=false',
-    );
-  }
-
-  Future<void> _moveInstallerToOutput() async {
-    await Terminal.runCommand(
-      command:
-          'mv ${_buildDir.absolute.path}\\*.msix "${_env.outputDir.absolute.path}\\${_env.appDisplayName}-Windows-Installer.msix"',
+      command: 'flutter pub run msix:create '
+          '--display-name="${_env.appDisplayName}" '
+          '--publisher-display-name="${_env.author}" '
+          '--identity-name="${_env.identifier}" '
+          '--logo-path="${_env.msixIconPath}" '
+          '--capabilities="" '
+          '--trim-logo=false '
+          '--output-path="${_buildDir.absolute.path}" '
+          '--output-name="${_env.appDisplayName}-Windows-Installer" '
+          '--build-windows=false',
     );
   }
 
