@@ -5,9 +5,17 @@ import 'package:flutter_app_builder/builder.dart';
 import 'package:flutter_app_builder/pubspec.dart';
 import 'package:flutter_app_builder/dependencies.dart';
 import 'package:flutter_app_builder/environment.dart';
+import 'package:flutter_app_builder/logs.dart';
 import 'package:flutter_app_builder/terminal.dart';
+import 'package:logging/logging.dart';
+
+final _log = Logger('main');
 
 Future<void> main(List<String> arguments) async {
+  initializeLogger();
+
+  _log.info('Initializing Flutter App Builder.');
+
   final parser = ArgParser()
     ..addOption('app-display-name')
     ..addOption('author')
@@ -21,12 +29,14 @@ Future<void> main(List<String> arguments) async {
   final ArgResults argResults = parser.parse(arguments);
 
   if (!argResults.wasParsed('platforms')) {
-    throw Exception('No target platforms were specified.');
+    _log.severe('No target platforms were specified.');
+    exit(1);
   }
 
   final targets = parser.parsePlatforms(
     argResults['platforms'] as List<String>,
   );
+  _log.info('Building for target platforms: $targets');
 
   final pubspecFile = File('pubspec.yaml');
   final pubspec = Pubspec(pubspecString: await pubspecFile.readAsString());
@@ -47,14 +57,20 @@ Future<void> main(List<String> arguments) async {
 
   await Builder().run();
   await environment.gitHub?.uploadArtifactsToDraftRelease();
+
+  _log.info('Finished building and packaging Flutter app.');
 }
 
 Future<void> cleanOutputDirectory() async {
   final output = Directory('output');
-  if (output.existsSync()) await output.delete(recursive: true);
+  if (output.existsSync()) {
+    _log.info('Cleaning output directory.');
+    await output.delete(recursive: true);
+  }
 }
 
 Future<void> getPackages() async {
+  _log.info('flutter pub get');
   await Terminal.runCommand(command: 'flutter pub get');
 }
 
@@ -71,11 +87,12 @@ void verifyPubspecVersion() {
       '${env.version.major}.${env.version.minor}.${env.version.patch}';
 
   if (githubTagVersion != pubspecVersion) {
-    throw Exception('''
+    _log.severe('''
 Pubspec version does not match GitHub tag.
 Did you forget to bump the version in Pubspec?
 Pubspec version is: $pubspecVersion
 GitHub tag is: ${env.gitHub?.refName}''');
+    exit(1);
   }
 }
 
@@ -87,7 +104,6 @@ extension on ArgParser {
       final Target? target = targetHashMap[platform];
       if (target == null) continue;
       targets.add(target);
-      // Environment.targets.add(target);
     }
 
     return targets;

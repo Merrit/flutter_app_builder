@@ -2,9 +2,12 @@ import 'dart:io';
 
 import 'package:crypto/crypto.dart';
 import 'package:flutter_app_builder/terminal.dart';
+import 'package:logging/logging.dart';
 
 import 'constants.dart';
 import 'environment.dart';
+
+final _log = Logger('Linux');
 
 class Linux {
   final String _buildPath = BuildPath.linux;
@@ -30,6 +33,7 @@ class Linux {
   }
 
   Future<void> package() async {
+    _log.info('Packaging Linux build.');
     await _compressPortable();
     await _createPortableHash();
   }
@@ -50,7 +54,8 @@ cd ${_env.projectRoot.absolute.path}''',
   }
 
   Future<void> _createPortableHash() async {
-    final sha256 = await portableArchiveInOutput.sha256sum();
+    final String sha256 = await portableArchiveInOutput.sha256sum();
+    _log.info('Linux portable sha256: $sha256');
     final sha256File = File(
       _env.outputDir.path + '/${_env.appDisplayName}-Linux-Portable.sha256sum',
     );

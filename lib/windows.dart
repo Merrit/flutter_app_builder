@@ -1,8 +1,12 @@
 import 'dart:io';
 
+import 'package:logging/logging.dart';
+
 import 'constants.dart';
 import 'environment.dart';
 import 'terminal.dart';
+
+final _log = Logger('Windows');
 
 class Windows {
   final String _buildPath = BuildPath.windows;
@@ -23,6 +27,7 @@ class Windows {
   }
 
   Future<void> package() async {
+    _log.info('Packaging Windows build.');
     await _createInstaller();
     _moveInstallerToOutput();
     await _copyVCRuntime();

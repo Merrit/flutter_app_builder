@@ -1,7 +1,11 @@
 import 'dart:io';
 
+import 'package:logging/logging.dart';
+
 import 'environment.dart';
 import 'terminal.dart';
+
+final _log = Logger('GitHub');
 
 class GitHub {
   /// The name of the event that triggered the workflow.
@@ -37,6 +41,8 @@ class GitHub {
     // Script should only run on push events if they were for a new tag.
     // Therefore, if the event is not a push we aren't making a release.
     if (eventName != 'push') return;
+
+    _log.info('Uploading artifacts to a draft release');
 
     String command;
 

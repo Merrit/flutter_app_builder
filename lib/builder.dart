@@ -1,8 +1,12 @@
+import 'package:logging/logging.dart';
+
 import 'android.dart';
 import 'environment.dart';
 import 'linux.dart';
 import 'terminal.dart';
 import 'windows.dart';
+
+final _log = Logger('Builder');
 
 class Builder {
   Future<void> run() async {
@@ -28,6 +32,8 @@ class Builder {
   }
 
   Future<String> _buildPlatform(String platform) async {
+    _log.info('Running build for $platform');
+
     return await Terminal.runCommand(
       command: 'flutter build -v $platform --release',
     );
