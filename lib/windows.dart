@@ -34,10 +34,6 @@ class Windows {
   }
 
   Future<void> _createInstaller() async {
-    // Causes GitHub workflow to run forever without error, even though
-    // it works fine locally. Skip until we figure it out. (┛ಠ_ಠ)┛彡┻━┻
-    if (_env.runningInGithubCI) return;
-
     await Terminal.runCommand(
       command: 'flutter pub run msix:create '
           '--display-name="${_env.appDisplayName}" '
@@ -48,7 +44,8 @@ class Windows {
           '--trim-logo=false '
           '--output-path="${_buildDir.absolute.path}" '
           '--output-name="${_env.appDisplayName}-Windows-Installer" '
-          '--build-windows=false',
+          '--build-windows=false'
+          '--install-certificate=false',
     );
   }
 
