@@ -48,24 +48,14 @@ class Windows {
         '--output-path="${_buildDir.absolute.path}" '
         '--output-name="${_env.appDisplayName}-Windows-Installer"';
 
-    final process = await Process.start('powershell', [command]);
+    // final process = await Process.start('powershell', [command]);
 
-    stdout.addStream(process.stdout);
-    stderr.addStream(process.stderr);
+    // stdout.addStream(process.stdout);
+    // stderr.addStream(process.stderr);
 
-    // await Terminal.runCommand(
-    //   command: 'flutter pub run msix:create -v '
-    //       '--display-name="${_env.appDisplayName}" '
-    //       '--publisher-display-name="${_env.author}" '
-    //       '--identity-name="${_env.identifier}" '
-    //       '--logo-path="${_env.msixIconPath}" '
-    //       '--capabilities="" '
-    //       '--trim-logo=false '
-    //       '--output-path="${_buildDir.absolute.path}" '
-    //       '--output-name="${_env.appDisplayName}-Windows-Installer" '
-    //       '--build-windows=false'
-    //       '--install-certificate=false',
-    // );
+    await Terminal.runCommand(
+      command: command,
+    );
   }
 
   /// Copy VC redistributables to build directory.
