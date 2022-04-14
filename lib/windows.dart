@@ -36,25 +36,18 @@ class Windows {
   Future<void> _createInstaller() async {
     _log.info('Creating Windows msix installer.');
 
-    final command = 'flutter pub run msix:create -v '
-        '--build-windows=false '
-        '--install-certificate=false '
-        '--capabilities="" '
-        '--trim-logo=false '
-        '--display-name="${_env.appDisplayName}" '
-        '--publisher-display-name="${_env.author}" '
-        '--identity-name="${_env.identifier}" '
-        '--logo-path="${_env.msixIconPath}" '
-        '--output-path="${_env.outputDir.absolute.path}" '
-        '--output-name="${_env.appDisplayName}-Windows-Installer"';
-
-    // final process = await Process.start('powershell', [command]);
-
-    // stdout.addStream(process.stdout);
-    // stderr.addStream(process.stderr);
-
     await Terminal.runCommand(
-      command: command,
+      command: 'flutter pub run msix:create -v '
+          '--build-windows=false '
+          '--install-certificate=false '
+          '--capabilities="" '
+          '--trim-logo=false '
+          '--display-name="${_env.appDisplayName}" '
+          '--publisher-display-name="${_env.author}" '
+          '--identity-name="${_env.identifier}" '
+          '--logo-path="${_env.msixIconPath}" '
+          '--output-path="${_env.outputDir.absolute.path}" '
+          '--output-name="${_env.appDisplayName}-Windows-Installer"',
     );
   }
 
