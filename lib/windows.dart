@@ -46,10 +46,7 @@ class Windows {
         '--build-windows=false'
         '--install-certificate=false';
 
-    final process = await Process.start(
-      'bash',
-      ['-c', command],
-    );
+    final process = await Process.start('powershell', [command]);
 
     stdout.addStream(process.stdout);
     stderr.addStream(process.stderr);
