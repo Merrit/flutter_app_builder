@@ -34,6 +34,8 @@ class Windows {
   }
 
   Future<void> _createInstaller() async {
+    _log.info('Creating Windows msix installer.');
+
     final command = 'flutter pub run msix:create -v '
         '--display-name="${_env.appDisplayName}" '
         '--publisher-display-name="${_env.author}" '
@@ -44,7 +46,8 @@ class Windows {
         '--output-path="${_buildDir.absolute.path}" '
         '--output-name="${_env.appDisplayName}-Windows-Installer" '
         '--build-windows=false'
-        '--install-certificate=false';
+        '--install-certificate=false'
+        '--sign-msix=false';
 
     final process = await Process.start('powershell', [command]);
 
