@@ -34,19 +34,39 @@ class Windows {
   }
 
   Future<void> _createInstaller() async {
-    await Terminal.runCommand(
-      command: 'flutter pub run msix:create -v '
-          '--display-name="${_env.appDisplayName}" '
-          '--publisher-display-name="${_env.author}" '
-          '--identity-name="${_env.identifier}" '
-          '--logo-path="${_env.msixIconPath}" '
-          '--capabilities="" '
-          '--trim-logo=false '
-          '--output-path="${_buildDir.absolute.path}" '
-          '--output-name="${_env.appDisplayName}-Windows-Installer" '
-          '--build-windows=false'
-          '--install-certificate=false',
+    final command = 'flutter pub run msix:create -v '
+        '--display-name="${_env.appDisplayName}" '
+        '--publisher-display-name="${_env.author}" '
+        '--identity-name="${_env.identifier}" '
+        '--logo-path="${_env.msixIconPath}" '
+        '--capabilities="" '
+        '--trim-logo=false '
+        '--output-path="${_buildDir.absolute.path}" '
+        '--output-name="${_env.appDisplayName}-Windows-Installer" '
+        '--build-windows=false'
+        '--install-certificate=false';
+
+    final process = await Process.start(
+      'bash',
+      ['-c', command],
     );
+
+    stdout.addStream(process.stdout);
+    stderr.addStream(process.stderr);
+
+    // await Terminal.runCommand(
+    //   command: 'flutter pub run msix:create -v '
+    //       '--display-name="${_env.appDisplayName}" '
+    //       '--publisher-display-name="${_env.author}" '
+    //       '--identity-name="${_env.identifier}" '
+    //       '--logo-path="${_env.msixIconPath}" '
+    //       '--capabilities="" '
+    //       '--trim-logo=false '
+    //       '--output-path="${_buildDir.absolute.path}" '
+    //       '--output-name="${_env.appDisplayName}-Windows-Installer" '
+    //       '--build-windows=false'
+    //       '--install-certificate=false',
+    // );
   }
 
   /// Copy VC redistributables to build directory.
