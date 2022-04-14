@@ -45,7 +45,7 @@ class Windows {
         '--publisher-display-name="${_env.author}" '
         '--identity-name="${_env.identifier}" '
         '--logo-path="${_env.msixIconPath}" '
-        '--output-path="${_buildDir.absolute.path}" '
+        '--output-path="${_env.outputDir.absolute.path}" '
         '--output-name="${_env.appDisplayName}-Windows-Installer"';
 
     // final process = await Process.start('powershell', [command]);
