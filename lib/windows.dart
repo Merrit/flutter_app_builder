@@ -37,17 +37,16 @@ class Windows {
     _log.info('Creating Windows msix installer.');
 
     final command = 'flutter pub run msix:create -v '
+        '--build-windows=false '
+        '--install-certificate=false '
+        '--capabilities="" '
+        '--trim-logo=false '
         '--display-name="${_env.appDisplayName}" '
         '--publisher-display-name="${_env.author}" '
         '--identity-name="${_env.identifier}" '
         '--logo-path="${_env.msixIconPath}" '
-        '--capabilities="" '
-        '--trim-logo=false '
         '--output-path="${_buildDir.absolute.path}" '
-        '--output-name="${_env.appDisplayName}-Windows-Installer" '
-        '--build-windows=false'
-        '--install-certificate=false'
-        '--sign-msix=false';
+        '--output-name="${_env.appDisplayName}-Windows-Installer"';
 
     final process = await Process.start('powershell', [command]);
 
