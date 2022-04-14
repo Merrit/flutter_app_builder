@@ -35,7 +35,7 @@ class Windows {
 
   Future<void> _createInstaller() async {
     await Terminal.runCommand(
-      command: 'flutter pub run msix:create -v'
+      command: 'flutter pub run msix:create -v '
           '--display-name="${_env.appDisplayName}" '
           '--publisher-display-name="${_env.author}" '
           '--identity-name="${_env.identifier}" '
