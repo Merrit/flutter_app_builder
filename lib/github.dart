@@ -23,20 +23,24 @@ class GitHub {
   ///// The secret token required to upload to / create a release.
   // final String? releaseToken;
 
-  GitHub({
+  GitHub._({
     required this.eventName,
     required this.refName,
     // this.releaseToken,
   });
 
+  static late final GitHub instance;
+
   factory GitHub.initialize() {
     final env = Platform.environment;
 
-    return GitHub(
+    instance = GitHub._(
       eventName: env['GITHUB_EVENT_NAME']!,
       refName: env['GITHUB_REF_NAME']!,
       // releaseToken: env['GITHUB_TOKEN'],
     );
+
+    return instance;
   }
 
   Future<void> uploadArtifactsToDraftRelease() async {

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:args/args.dart';
 import 'package:flutter_app_builder/builder.dart';
+import 'package:flutter_app_builder/github.dart';
 import 'package:flutter_app_builder/pubspec.dart';
 import 'package:flutter_app_builder/dependencies.dart';
 import 'package:flutter_app_builder/environment.dart';
@@ -50,13 +51,14 @@ Future<void> main(List<String> arguments) async {
   );
 
   if (environment.runningInGithubCI) {
+    GitHub.initialize();
     await installDependencies();
     await getPackages();
     verifyPubspecVersion();
   }
 
   await Builder().run();
-  await environment.gitHub?.uploadArtifactsToDraftRelease();
+  await GitHub.instance.uploadArtifactsToDraftRelease();
 
   _log.info('Finished building and packaging Flutter app.');
 }
@@ -77,12 +79,11 @@ Future<void> getPackages() async {
 /// Verify pubspec version has been updated to match tag for release.
 void verifyPubspecVersion() {
   final env = Environment.instance;
-  final github = env.gitHub;
+  final github = GitHub.instance;
 
-  if (github == null) return;
   if (github.eventName != 'push') return;
 
-  final githubTagVersion = env.gitHub?.refName.substring(1);
+  final githubTagVersion = github.refName.substring(1);
   final pubspecVersion =
       '${env.version.major}.${env.version.minor}.${env.version.patch}';
 
@@ -91,7 +92,7 @@ void verifyPubspecVersion() {
 Pubspec version does not match GitHub tag.
 Did you forget to bump the version in Pubspec?
 Pubspec version is: $pubspecVersion
-GitHub tag is: ${env.gitHub?.refName}''');
+GitHub tag is: ${github.refName}''');
     exit(1);
   }
 }

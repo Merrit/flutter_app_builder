@@ -4,7 +4,6 @@ import 'package:args/args.dart';
 import 'package:logging/logging.dart';
 import 'package:pub_semver/pub_semver.dart';
 
-import 'github.dart';
 import 'pubspec.dart';
 
 final _log = Logger('Environment');
@@ -34,7 +33,6 @@ class Environment {
   final Directory projectRoot;
 
   final bool runningInGithubCI;
-  final GitHub? gitHub;
 
   const Environment._({
     required this.appName,
@@ -47,7 +45,6 @@ class Environment {
     required this.outputDir,
     required this.projectRoot,
     required this.runningInGithubCI,
-    required this.gitHub,
   });
 
   static late final Environment instance;
@@ -74,7 +71,6 @@ class Environment {
       outputDir: Directory('output')..createSync(),
       projectRoot: Directory.current,
       runningInGithubCI: runningInGitubCI,
-      gitHub: runningInGitubCI ? GitHub.initialize() : null,
     );
 
     return instance;
