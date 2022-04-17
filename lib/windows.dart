@@ -94,7 +94,7 @@ class Windows {
 
   Future<void> _compressPortable() async {
     final portableFile = File('$_buildPath\\PORTABLE')..createSync();
-    Terminal.runCommand(
+    await Terminal.runCommand(
       command:
           'compress-archive -Path ${_buildDir.absolute.path}\\* -DestinationPath "${_env.outputDir.absolute.path}\\$zipFileName"',
     );
