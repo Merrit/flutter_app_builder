@@ -17,8 +17,10 @@ class Builder {
           await Linux().package();
           break;
         case Target.windows:
+          final windows = Windows();
+          await windows.updateVersion();
           await _buildPlatform('windows');
-          await Windows().package();
+          await windows.package();
           break;
         case Target.android:
           await _buildPlatform('appbundle');

@@ -26,6 +26,28 @@ class Windows {
     );
   }
 
+  /// Updates the `Runner.rc` file for the Windows build so it has the correct
+  /// version information. (windows/runner/Runner.rc)
+  Future<void> updateVersion() async {
+    _log.info('Updating Windows version string.');
+
+    final version = Environment.instance.version;
+
+    final runnerRcFile = File('windows\\runner\\Runner.rc');
+    String runnerRc = await runnerRcFile.readAsString();
+    runnerRc = runnerRc
+        .replaceAll(
+          RegExp(r'(?<=#define VERSION_AS_NUMBER )\d.*'),
+          '${version.major},${version.minor},${version.patch}',
+        )
+        .replaceAll(
+          RegExp(r'(?<=#define VERSION_AS_STRING ")\d.*(?=")'),
+          '${version.major}.${version.minor}.${version.patch}',
+        );
+
+    await runnerRcFile.writeAsString(runnerRc);
+  }
+
   Future<void> package() async {
     _log.info('Packaging Windows build.');
     await _createInstaller();
