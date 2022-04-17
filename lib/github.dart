@@ -8,6 +8,8 @@ import 'terminal.dart';
 final _log = Logger('GitHub');
 
 class GitHub {
+  final _env = Environment.instance;
+
   /// The name of the event that triggered the workflow.
   ///
   /// For example, `workflow_dispatch`.
@@ -21,7 +23,7 @@ class GitHub {
   ///// The secret token required to upload to / create a release.
   // final String? releaseToken;
 
-  const GitHub({
+  GitHub({
     required this.eventName,
     required this.refName,
     // this.releaseToken,
@@ -46,9 +48,10 @@ class GitHub {
 
     String command;
 
-    if (Environment.instance.targetingWindows) {
+    if (_env.targetingWindows) {
       // (get-item) is needed because `gh` does not auto-expand wildcards.
-      command = 'gh release upload $refName (get-item .\\output\\*) --clobber';
+      command =
+          'gh release upload $refName (get-item ${_env.outputDir.absolute.path}\\*) --clobber';
     } else {
       command = 'gh release upload $refName output/* --clobber';
     }
