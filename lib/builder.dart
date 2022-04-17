@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:logging/logging.dart';
 
 import 'android.dart';
@@ -30,6 +32,8 @@ class Builder {
           break;
       }
     }
+
+    await _validateArchiveFilenames();
   }
 
   Future<String> _buildPlatform(String platform) async {
@@ -38,5 +42,15 @@ class Builder {
     return await Terminal.runCommand(
       command: 'flutter build -v $platform --release',
     );
+  }
+
+  Future<void> _validateArchiveFilenames() async {
+    final separator = (Platform.isWindows) ? '\\' : '/';
+
+    for (var file in Environment.instance.outputDir.listSync()) {
+      final name = file.path.split(separator).last;
+      final validatedName = name.replaceAll(' ', '');
+      await file.rename(validatedName);
+    }
   }
 }
