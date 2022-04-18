@@ -50,7 +50,11 @@ class Builder {
     for (var file in Environment.instance.outputDir.listSync()) {
       final name = file.path.split(separator).last;
       final validatedName = name.replaceAll(' ', '');
-      await file.rename(validatedName);
+      await file.rename(
+        Environment.instance.outputDir.absolute.path +
+            separator +
+            validatedName,
+      );
     }
   }
 }
