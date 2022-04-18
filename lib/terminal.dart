@@ -25,7 +25,9 @@ abstract class Terminal {
 
     final result = await Process.run(executable, arguments);
 
-    if (result.stderr != '') throw Exception(result.stderr);
+    if (result.stderr != '') {
+      _log.severe('Issue while running terminal command: ${result.stderr}');
+    }
 
     return result.stdout;
   }
