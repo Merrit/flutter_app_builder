@@ -27,7 +27,6 @@ abstract class Terminal {
 
     if (result.stderr != '') {
       _log.severe('Issue while running terminal command: ${result.stderr}');
-      exit(1);
     }
 
     return result.stdout;
