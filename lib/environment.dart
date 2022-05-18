@@ -21,10 +21,16 @@ class Environment {
   /// Reverse domain identifier, eg `com.example.AppName`.
   final String identifier;
 
+  final String msixIdentityName;
+  final String msixPublisher;
+
   /// Path to the icon to supply to the msix installer.
   ///
   /// Can be either png or ico.
   final String msixIconPath;
+
+  /// Declared permissions for the Microsoft Store.
+  final String msixCapabilities;
 
   final Version version;
 
@@ -39,7 +45,10 @@ class Environment {
     required this.appDisplayName,
     required this.author,
     required this.identifier,
+    required this.msixIdentityName,
+    required this.msixPublisher,
     required this.msixIconPath,
+    required this.msixCapabilities,
     required this.version,
     required this.targets,
     required this.outputDir,
@@ -65,7 +74,13 @@ class Environment {
           argResults['app-display-name'] ?? pubspec.appDisplayName ?? '',
       author: argResults['author'] ?? pubspec.author ?? '',
       identifier: argResults['identifier'] ?? pubspec.identifier ?? '',
+      msixIdentityName:
+          argResults['msix-identity-name'] ?? pubspec.msixIdentityName ?? '',
+      msixPublisher:
+          argResults['msix-publisher'] ?? pubspec.msixPublisher ?? '',
       msixIconPath: argResults['msix-icon-path'] ?? pubspec.msixIconPath ?? '',
+      msixCapabilities:
+          argResults['msix-capabilities'] ?? pubspec.msixCapabilities ?? '',
       version: pubspec.version,
       targets: targets,
       outputDir: Directory('output')..createSync(),

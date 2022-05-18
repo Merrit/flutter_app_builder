@@ -21,7 +21,10 @@ Future<void> main(List<String> arguments) async {
     ..addOption('app-display-name')
     ..addOption('author')
     ..addOption('identifier')
+    ..addOption('msix-identity-name')
+    ..addOption('msix-publisher')
     ..addOption('msix-icon-path')
+    ..addOption('msix-capabilities')
     ..addMultiOption(
       'platforms',
       allowed: ['linux', 'windows', 'android'],
@@ -58,7 +61,10 @@ Future<void> main(List<String> arguments) async {
   }
 
   await Builder().run();
-  await GitHub.instance.uploadArtifactsToDraftRelease();
+
+  if (environment.runningInGithubCI) {
+    await GitHub.instance.uploadArtifactsToDraftRelease();
+  }
 
   _log.info('Finished building and packaging Flutter app.');
 }

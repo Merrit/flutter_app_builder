@@ -60,13 +60,15 @@ class Windows {
 
     await Terminal.runCommand(
       command: 'flutter pub run msix:create -v '
+          '--store '
           '--build-windows=false '
           '--install-certificate=false '
-          '--capabilities="" '
+          '--capabilities="${_env.msixCapabilities}" '
           '--trim-logo=false '
           '--display-name="${_env.appDisplayName}" '
           '--publisher-display-name="${_env.author}" '
-          '--identity-name="${_env.identifier}" '
+          '--publisher="${_env.msixPublisher}" '
+          '--identity-name="${_env.msixIdentityName}" '
           '--logo-path="${_env.msixIconPath}" '
           '--output-path="${_env.outputDir.absolute.path}" '
           '--output-name="${_env.appDisplayName}-Windows-Installer"',
