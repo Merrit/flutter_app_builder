@@ -1,5 +1,10 @@
+import 'dart:io';
+
+import 'package:logging/logging.dart';
 import 'package:pub_semver/pub_semver.dart';
 import 'package:yaml/yaml.dart';
+
+final _log = Logger('Pubspec');
 
 class Pubspec {
   final String name;
@@ -26,6 +31,14 @@ class Pubspec {
 
   factory Pubspec({required String pubspecString}) {
     final YamlMap pubspec = loadYaml(pubspecString);
+
+    if (!pubspec.containsKey('flutter_app_builder')) {
+      _log.severe(
+        'Unable to load our configs from pubspec; has the flutter_app_builder section been populated?',
+      );
+      exit(1);
+    }
+
     final YamlMap builderYaml = pubspec['flutter_app_builder'];
 
     return Pubspec._(
