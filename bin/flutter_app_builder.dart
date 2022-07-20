@@ -89,6 +89,9 @@ void verifyPubspecVersion() {
 
   if (github.eventName != 'push') return;
 
+  /// If the tag doesn't begin with `v`, we don't need to verify.
+  if (github.refName[0] != 'v') return;
+
   final githubTagVersion = github.refName.substring(1);
   final pubspecVersion =
       '${env.version.major}.${env.version.minor}.${env.version.patch}';
