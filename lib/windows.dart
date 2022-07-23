@@ -50,9 +50,16 @@ class Windows {
 
   Future<void> package() async {
     _log.info('Packaging Windows build.');
+    await _addBuildInfo();
     await _createInstaller();
     await _copyVCRuntime();
     await _compressPortable();
+  }
+
+  /// Add info about when this build occurred.
+  Future<void> _addBuildInfo() async {
+    final buildFile = File('$_buildPath/BUILD');
+    await buildFile.writeAsString(DateTime.now().toString());
   }
 
   Future<void> _createInstaller() async {

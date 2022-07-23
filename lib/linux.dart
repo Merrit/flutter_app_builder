@@ -34,8 +34,15 @@ class Linux {
 
   Future<void> package() async {
     _log.info('Packaging Linux build.');
+    await _addBuildInfo();
     await _compressPortable();
     await _createPortableHash();
+  }
+
+  /// Add info about when this build occurred.
+  Future<void> _addBuildInfo() async {
+    final buildFile = File('$_buildPath/BUILD');
+    await buildFile.writeAsString(DateTime.now().toString());
   }
 
   // Using bash commands because the `archive` package doesn't seem to
