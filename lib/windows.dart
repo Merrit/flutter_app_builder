@@ -60,7 +60,7 @@ class Windows {
   Future<void> _addBuildInfo() async {
     if (Platform.environment['prerelease'] != 'true') return;
     final buildFile = File('$_buildPath/BUILD');
-    await buildFile.writeAsString(DateTime.now().toString());
+    await buildFile.writeAsString(DateTime.now().toUtc().toString());
   }
 
   Future<void> _createInstaller() async {
