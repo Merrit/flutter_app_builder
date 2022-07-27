@@ -59,7 +59,7 @@ class Windows {
   /// Add info about when this build occurred, only for preleases.
   Future<void> _addBuildInfo() async {
     if (Platform.environment['prerelease'] != 'true') return;
-    final buildFile = File('$_buildPath/BUILD');
+    final buildFile = File('$_buildPath\\BUILD');
     await buildFile.writeAsString(DateTime.now().toUtc().toString());
   }
 
