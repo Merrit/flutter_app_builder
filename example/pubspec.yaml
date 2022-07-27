@@ -20,8 +20,8 @@ dev_dependencies:
       url: https://github.com/Merrit/flutter_app_builder.git
   flutter_test:
     sdk: flutter
-
   flutter_lints: ^2.0.0
+  msix: ^3.6.2
 
 flutter:
   uses-material-design: true

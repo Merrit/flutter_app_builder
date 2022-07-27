@@ -14,6 +14,7 @@ dependencies:
   yaml: ^3.1.0
 
 dev_dependencies:
+  archive: ^3.3.1
   lints: ^1.0.0
   msix: ^1.0.2
   test: ^1.16.0
