@@ -54,12 +54,14 @@ jobs:
             ${{ github.workspace }}/artifacts/android-artifacts/*
 
   call-tests-linux:
+    needs: release
     uses: ./.github/workflows/tests-linux.yml
     with:
       pre-release: false
     secrets: inherit
 
   call-tests-windows:
+    needs: release
     uses: ./.github/workflows/tests-linux.yml
     with:
       pre-release: false
