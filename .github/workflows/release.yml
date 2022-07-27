@@ -1,0 +1,54 @@
+# Create a new release with every push on main
+
+name: Release
+
+on:
+  push:
+    branches:
+      - "main"
+    tags-ignore:
+      - "*"
+
+concurrency:
+  group: ci-release-${{ github.ref }}-1
+  cancel-in-progress: true
+
+jobs:
+  call-build-linux:
+    uses: ./.github/workflows/build-linux.yml
+    with:
+      pre-release: false
+    secrets: inherit
+  call-build-windows:
+    uses: ./.github/workflows/build-windows.yml
+    with:
+      pre-release: false
+    secrets: inherit
+  call-build-android:
+    uses: ./.github/workflows/build-android.yml
+    secrets: inherit
+
+  release:
+    name: "Release"
+    needs: [call-build-linux, call-build-windows, call-build-android]
+    runs-on: "ubuntu-latest"
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          path: artifacts
+
+      - name: Create Release & Upload artifacts
+        uses: marvinpinto/action-automatic-releases@v1.2.1
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "release"
+          prerelease: false
+          title: "Release Build"
+          files: |
+            ${{ github.workspace }}/artifacts/linux-artifacts/*
+            ${{ github.workspace }}/artifacts/windows-artifacts/*
+            ${{ github.workspace }}/artifacts/android-artifacts/*

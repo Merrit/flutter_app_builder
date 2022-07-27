@@ -1,6 +1,5 @@
 name: Build Windows
 on:
-  push:
   # Enable manual run
   workflow_dispatch:
   # Verify builds succeed on pull requests
