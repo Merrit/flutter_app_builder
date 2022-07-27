@@ -27,9 +27,6 @@ jobs:
     # ----------------------------------- Setup ------------------------------ #
 
     steps:
-      - name: Change to example directory
-        run: cd ${{ github.workspace }}/example
-
       - name: Set pre-release environment variable
         if: inputs.pre-release == true
         run: echo "prerelease=true" >> $GITHUB_ENV
@@ -39,6 +36,9 @@ jobs:
 
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: Change to example directory
+        run: cd ${{ github.workspace }}/example
 
       - name: Prepare for build
         run: |

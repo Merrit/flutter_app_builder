@@ -21,9 +21,6 @@ jobs:
     # ----------------------------------- Setup ------------------------------ #
 
     steps:
-      - name: Change to example directory
-        run: cd ${{ github.workspace }}/example
-
       - name: Setup Flutter
         uses: subosito/flutter-action@v2.3.0
 
@@ -34,6 +31,9 @@ jobs:
 
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: Change to example directory
+        run: cd ${{ github.workspace }}/example
 
       # TODO: Add testing for keystore config
       # - name: Configure Keystore for Android
