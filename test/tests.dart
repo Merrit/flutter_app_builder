@@ -6,7 +6,11 @@ import 'package:test/test.dart';
 import 'common.dart';
 
 void main() {
+  final bool isPrerelease = (Platform.environment['prerelease'] == 'true');
+
   group('linux', () {
+    if (!Platform.isLinux) return;
+
     final linuxPortableArchive = File(
       '$workspace/artifacts/linux-artifacts/IncredibleApp-Linux-Portable.tar.gz',
     );
@@ -20,11 +24,13 @@ void main() {
       final outPath = '$tempDirPath/linuxPortable';
       await extractFileToDisk(inPath, outPath);
       final buildFile = File('$outPath/BUILD');
-      expect(buildFile.existsSync(), true);
+      expect(buildFile.existsSync(), isPrerelease ? true : false);
     });
   });
 
   group('windows', () {
+    if (!Platform.isWindows) return;
+
     final windowsPortableArchive = File(
       '$workspace\\artifacts\\windows-artifacts\\IncredibleApp-Windows-Portable.zip',
     );
@@ -38,7 +44,7 @@ void main() {
       final outPath = '$tempDirPath\\windowsPortable';
       await extractFileToDisk(inPath, outPath);
       final buildFile = File('$outPath\\BUILD');
-      expect(buildFile.existsSync(), true);
+      expect(buildFile.existsSync(), isPrerelease ? true : false);
     });
   });
 }

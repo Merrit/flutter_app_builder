@@ -53,6 +53,14 @@ jobs:
             ${{ github.workspace }}/artifacts/windows-artifacts/*
             ${{ github.workspace }}/artifacts/android-artifacts/*
 
-      - name: Run Tests
-        run: flutter test
-        working-directory: ${{ github.workspace }}
+  call-tests-linux:
+    uses: ./.github/workflows/tests-linux.yml
+    with:
+      pre-release: false
+    secrets: inherit
+
+  call-tests-windows:
+    uses: ./.github/workflows/tests-linux.yml
+    with:
+      pre-release: false
+    secrets: inherit
