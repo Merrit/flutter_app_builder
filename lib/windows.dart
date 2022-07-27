@@ -50,17 +50,9 @@ class Windows {
 
   Future<void> package() async {
     _log.info('Packaging Windows build.');
-    await _addBuildInfo();
     await _createInstaller();
     await _copyVCRuntime();
     await _compressPortable();
-  }
-
-  /// Add info about when this build occurred, only for preleases.
-  Future<void> _addBuildInfo() async {
-    if (Platform.environment['prerelease'] != 'true') return;
-    final buildFile = File('$_buildPath\\BUILD');
-    await buildFile.writeAsString(DateTime.now().toUtc().toString());
   }
 
   Future<void> _createInstaller() async {
@@ -104,10 +96,21 @@ class Windows {
 
   Future<void> _compressPortable() async {
     final portableFile = File('$_buildPath\\PORTABLE')..createSync();
+    await _addBuildInfo();
     await Terminal.runCommand(
       command:
           'compress-archive -Path ${_buildDir.absolute.path}\\* -DestinationPath "${_env.outputDir.absolute.path}\\$zipFileName"',
     );
     await portableFile.delete();
+  }
+
+  /// Add info about when this build occurred, only for preleases.
+  Future<void> _addBuildInfo() async {
+    if (Platform.environment['prerelease'] != 'true') return;
+    final buildFile = File('$_buildPath\\BUILD');
+    await buildFile.writeAsString(
+      DateTime.now().toUtc().toString(),
+      flush: true,
+    );
   }
 }
