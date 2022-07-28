@@ -25,6 +25,11 @@ jobs:
           flutter upgrade
           flutter pub get
 
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          path: artifacts
+
       - name: Run tests
         if: inputs.pre-release == true
         run: flutter test
