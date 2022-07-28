@@ -43,7 +43,11 @@ void main() {
       await runCommand(command: 'tree');
 
       print('Tree for temp dir:');
-      await runCommand(command: 'tree $tempDirPath');
+      final String linuxCommand = 'tree $tempDirPath';
+      final String windowsCommand = 'tree $tempDirPath /F';
+      await runCommand(
+        command: Platform.isWindows ? windowsCommand : linuxCommand,
+      );
     });
   });
 }
