@@ -39,9 +39,6 @@ void main() {
     );
 
     test('debug', () async {
-      print('Tree for current dir:');
-      await runCommand(command: 'tree');
-
       print('Tree for temp dir:');
       final String linuxCommand = 'tree $tempDirPath';
       final String windowsCommand = 'tree $tempDirPath /F';
