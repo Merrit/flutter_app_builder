@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:archive/archive_io.dart';
-import 'package:flutter_app_builder/terminal.dart';
 import 'package:test/test.dart';
 
 import 'common.dart';
@@ -41,10 +40,35 @@ void main() {
 
     test('debug', () async {
       print('Tree for current dir:');
-      await Terminal.runCommand(command: 'tree');
+      await runCommand(command: 'tree');
 
       print('Tree for temp dir:');
-      await Terminal.runCommand(command: 'cd $tempDirPath && tree');
+      await runCommand(command: 'cd $tempDirPath && tree');
     });
   });
+}
+
+Future<String> runCommand({
+  required String command,
+}) async {
+  String executable;
+  List<String> arguments;
+
+  if (Platform.isWindows) {
+    executable = 'powershell';
+    arguments = [command];
+  } else {
+    executable = 'bash';
+    arguments = ['-c', command];
+  }
+
+  print('running on $executable: $command');
+
+  final result = await Process.run(executable, arguments);
+
+  if (result.stderr != '') {
+    print('\n${result.stderr}');
+  }
+
+  return result.stdout;
 }
