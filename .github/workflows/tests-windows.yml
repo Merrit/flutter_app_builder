@@ -31,5 +31,4 @@ jobs:
           path: artifacts
 
       - name: Run tests
-        if: inputs.pre-release == true
         run: flutter test
