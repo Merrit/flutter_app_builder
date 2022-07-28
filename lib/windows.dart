@@ -106,11 +106,20 @@ class Windows {
 
   /// Add info about when this build occurred, only for preleases.
   Future<void> _addBuildInfo() async {
+    final isPrerelease = Platform.environment['prerelease'];
+    _log.info('isPrerelease: $isPrerelease');
+
     if (Platform.environment['prerelease'] != 'true') return;
     final buildFile = File('$_buildPath\\BUILD')..createSync();
-    await buildFile.writeAsString(
+
+    final bool buildFileExists = await buildFile.exists();
+    _log.info('buildFileExists: $buildFileExists');
+
+    final writtenBuildFile = await buildFile.writeAsString(
       DateTime.now().toUtc().toString(),
       flush: true,
     );
+    final writtenBuildFileExists = await writtenBuildFile.exists();
+    _log.info('writtenBuildFileExists: $writtenBuildFileExists');
   }
 }
