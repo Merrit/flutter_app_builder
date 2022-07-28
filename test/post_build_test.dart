@@ -70,5 +70,9 @@ Future<String> runCommand({
     print('\n${result.stderr}');
   }
 
+  if (result.stdout != '') {
+    print('\n${result.stdout}');
+  }
+
   return result.stdout;
 }
