@@ -43,8 +43,7 @@ void main() {
       await runCommand(command: 'tree');
 
       print('Tree for temp dir:');
-      await runCommand(command: 'cd $tempDirPath');
-      await runCommand(command: 'tree');
+      await runCommand(command: 'tree $tempDirPath');
     });
   });
 }
