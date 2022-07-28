@@ -7,6 +7,7 @@ import 'common.dart';
 
 void main() {
   final bool isPrerelease = (Platform.environment['prerelease'] == 'true');
+  print('isPrerelease: $isPrerelease');
 
   group('linux', () {
     if (!Platform.isLinux) return;
@@ -19,14 +20,18 @@ void main() {
       expect(linuxPortableArchive.existsSync(), true);
     });
 
-    test('portable has BUILD file', () async {
-      final inPath = linuxPortableArchive.path;
-      final outPath = '$tempDirPath/linuxPortable';
-      await extractFileToDisk(inPath, outPath);
-      final buildFile = File('$outPath/BUILD');
-      final exists = await buildFile.exists();
-      expect(exists, isPrerelease ? true : false);
-    });
+    test(
+      'portable has BUILD file',
+      () async {
+        final inPath = linuxPortableArchive.path;
+        final outPath = '$tempDirPath/linuxPortable';
+        await extractFileToDisk(inPath, outPath);
+        final buildFile = File('$outPath/BUILD');
+        final exists = await buildFile.exists();
+        expect(exists, isPrerelease ? true : false);
+      },
+      timeout: Timeout(Duration(minutes: 2)),
+    );
   });
 
   group('windows', () {
