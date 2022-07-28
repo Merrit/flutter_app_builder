@@ -24,7 +24,8 @@ void main() {
       final outPath = '$tempDirPath/linuxPortable';
       await extractFileToDisk(inPath, outPath);
       final buildFile = File('$outPath/BUILD');
-      expect(buildFile.existsSync(), isPrerelease ? true : false);
+      final exists = await buildFile.exists();
+      expect(exists, isPrerelease ? true : false);
     });
   });
 
@@ -44,7 +45,8 @@ void main() {
       final outPath = '$tempDirPath\\windowsPortable';
       await extractFileToDisk(inPath, outPath);
       final buildFile = File('$outPath\\BUILD');
-      expect(buildFile.existsSync(), isPrerelease ? true : false);
+      final exists = await buildFile.exists();
+      expect(exists, isPrerelease ? true : false);
     });
   });
 }
