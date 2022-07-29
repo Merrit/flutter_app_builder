@@ -6,45 +6,73 @@ import 'package:test/test.dart';
 import 'common.dart';
 
 void main() {
-  final bool isPrerelease = (Platform.environment['prerelease'] == 'true');
+  final bool isPrerelease = Platform.environment['GITHUB_REF_NAME'] == 'latest';
 
-  group('linux', () {
-    if (!Platform.isLinux) return;
+  group('Portable:', () {
+    final String linuxPortableArchivePath =
+        '$workspace/artifacts/linux-artifacts/IncredibleApp-Linux-Portable.tar.gz';
+    final String windowsPortableArchivePath =
+        '$workspace\\artifacts\\windows-artifacts\\IncredibleApp-Windows-Portable.zip';
 
-    final linuxPortableArchive = File(
-      '$workspace/artifacts/linux-artifacts/IncredibleApp-Linux-Portable.tar.gz',
+    final File portableArchive = File(
+      Platform.isLinux ? linuxPortableArchivePath : windowsPortableArchivePath,
     );
 
-    test('portable exists', () {
-      expect(linuxPortableArchive.existsSync(), true);
+    test('archive exists', () async {
+      final bool exists = await portableArchive.exists();
+      expect(exists, true);
     });
 
-    test('portable has BUILD file', () async {
-      final inPath = linuxPortableArchive.path;
-      final outPath = '$tempDirPath/linuxPortable';
-      await extractFileToDisk(inPath, outPath);
-      final buildFile = File('$outPath/BUILD');
-      expect(buildFile.existsSync(), isPrerelease ? true : false);
-    });
-  });
-
-  group('windows', () {
-    if (!Platform.isWindows) return;
-
-    final windowsPortableArchive = File(
-      '$workspace\\artifacts\\windows-artifacts\\IncredibleApp-Windows-Portable.zip',
+    test(
+      'has BUILD file',
+      () async {
+        final inPath = portableArchive.path;
+        final outPath = '$tempDirPath${Platform.pathSeparator}portable';
+        await extractFileToDisk(inPath, outPath);
+        final buildFile = File('$outPath${Platform.pathSeparator}BUILD');
+        final exists = await buildFile.exists();
+        expect(exists, isPrerelease ? true : false);
+      },
+      // Longer timeout required for Linux.
+      timeout: Platform.isLinux ? Timeout(Duration(minutes: 2)) : null,
     );
 
-    test('portable exists', () {
-      expect(windowsPortableArchive.existsSync(), true);
-    });
-
-    test('portable has BUILD file', () async {
-      final inPath = windowsPortableArchive.path;
-      final outPath = '$tempDirPath\\windowsPortable';
-      await extractFileToDisk(inPath, outPath);
-      final buildFile = File('$outPath\\BUILD');
-      expect(buildFile.existsSync(), isPrerelease ? true : false);
+    test('debug', () async {
+      print('Tree for temp dir:');
+      final String linuxCommand = 'tree $tempDirPath';
+      final String windowsCommand = 'tree $tempDirPath /F';
+      await runCommand(
+        command: Platform.isWindows ? windowsCommand : linuxCommand,
+      );
     });
   });
+}
+
+Future<String> runCommand({
+  required String command,
+}) async {
+  String executable;
+  List<String> arguments;
+
+  if (Platform.isWindows) {
+    executable = 'powershell';
+    arguments = [command];
+  } else {
+    executable = 'bash';
+    arguments = ['-c', command];
+  }
+
+  print('running on $executable: $command');
+
+  final result = await Process.run(executable, arguments);
+
+  if (result.stderr != '') {
+    print('\n${result.stderr}');
+  }
+
+  if (result.stdout != '') {
+    print('\n${result.stdout}');
+  }
+
+  return result.stdout;
 }

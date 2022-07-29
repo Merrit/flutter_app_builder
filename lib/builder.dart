@@ -10,6 +10,10 @@ import 'windows.dart';
 
 final _log = Logger('Builder');
 
+// TODO: De-duplicate a bunch of this stuff. Probably should be all in this
+// Builder class.. Set variables like path once at the beginning that steps can
+// refer to without having to constantly check the platform.
+
 class Builder {
   Future<void> run() async {
     for (var target in Environment.instance.targets) {

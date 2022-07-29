@@ -106,11 +106,12 @@ class Windows {
 
   /// Add info about when this build occurred, only for preleases.
   Future<void> _addBuildInfo() async {
-    if (Platform.environment['prerelease'] != 'true') return;
+    final githubRefName = Platform.environment['GITHUB_REF_NAME'];
+    _log.info('githubRefName: $githubRefName');
+
+    if (Platform.environment['GITHUB_REF_NAME'] != 'latest') return;
+
     final buildFile = File('$_buildPath\\BUILD');
-    await buildFile.writeAsString(
-      DateTime.now().toUtc().toString(),
-      flush: true,
-    );
+    await buildFile.writeAsString(DateTime.now().toUtc().toString());
   }
 }

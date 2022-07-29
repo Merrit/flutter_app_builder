@@ -2,21 +2,11 @@ name: Run tests for Windows
 on:
   workflow_dispatch:
   workflow_call:
-    inputs:
-      pre-release:
-        description: "Whether the test is for a pre-release"
-        required: false
-        default: false
-        type: boolean
 
 jobs:
   test_windows:
     runs-on: windows-2019
     steps:
-      - name: Set pre-release environment variable
-        if: inputs.pre-release == true
-        run: echo "prerelease=true" >> $GITHUB_ENV
-
       - uses: actions/checkout@v2
       - uses: subosito/flutter-action@v1.5.0
 
@@ -31,5 +21,4 @@ jobs:
           path: artifacts
 
       - name: Run tests
-        if: inputs.pre-release == true
         run: flutter test
