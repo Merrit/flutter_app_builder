@@ -8,6 +8,9 @@ import 'common.dart';
 void main() {
   final bool isPrerelease = (Platform.environment['prerelease'] == 'true');
 
+  final githubAction = Platform.environment['GITHUB_ACTION'];
+  print('githubAction: $githubAction');
+
   group('linux', () {
     if (!Platform.isLinux) return;
 
