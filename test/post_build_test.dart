@@ -8,8 +8,7 @@ import 'common.dart';
 void main() {
   final bool isPrerelease = Platform.environment['GITHUB_REF_NAME'] == 'latest';
 
-  final githubAction = Platform.environment['GITHUB_ACTION'];
-  print('githubAction: $githubAction');
+  print(Platform.environment);
 
   group('Portable:', () {
     final String linuxPortableArchivePath =
