@@ -49,7 +49,6 @@ class Windows {
   }
 
   Future<void> package() async {
-    print(Platform.environment);
     _log.info('Packaging Windows build.');
     await _createInstaller();
     await _copyVCRuntime();
@@ -107,10 +106,7 @@ class Windows {
 
   /// Add info about when this build occurred, only for preleases.
   Future<void> _addBuildInfo() async {
-    final githubRefName = Platform.environment['GITHUB_REF_NAME'];
-    _log.info('githubRefName: $githubRefName');
-
-    if (Platform.environment['GITHUB_REF_NAME'] != 'latest') return;
+    if (Platform.environment['GITHUB_WORKFLOW'] != 'Pre-Release') return;
 
     final buildFile = File('$_buildPath\\BUILD');
     await buildFile.writeAsString(DateTime.now().toUtc().toString());
