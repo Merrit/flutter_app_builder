@@ -33,8 +33,7 @@ class Linux {
   }
 
   Future<void> package() async {
-    final githubAction = Platform.environment['GITHUB_ACTION'];
-    print('githubAction: $githubAction');
+    print(Platform.environment);
     _log.info('Packaging Linux build.');
     await _addBuildInfo();
     await _compressPortable();
