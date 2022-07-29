@@ -39,9 +39,8 @@ class Linux {
     await _createPortableHash();
   }
 
-  /// Add info about when this build occurred, only for preleases.
+  /// Add info about when this build occurred.
   Future<void> _addBuildInfo() async {
-    if (Platform.environment['prerelease'] != 'true') return;
     final buildFile = File('$_buildPath/BUILD');
     await buildFile.writeAsString(DateTime.now().toUtc().toString());
   }
