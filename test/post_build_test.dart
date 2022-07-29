@@ -6,9 +6,7 @@ import 'package:test/test.dart';
 import 'common.dart';
 
 void main() {
-  final bool isPrerelease = Platform.environment['GITHUB_REF_NAME'] == 'latest';
-
-  print(Platform.environment);
+  final isPrerelease = Platform.environment['GITHUB_WORKFLOW'] == 'Pre-Release';
 
   group('Portable:', () {
     final String linuxPortableArchivePath =
