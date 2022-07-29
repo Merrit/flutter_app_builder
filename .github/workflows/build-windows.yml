@@ -29,7 +29,7 @@ jobs:
     steps:
       - name: Set pre-release environment variable
         if: inputs.pre-release == true
-        run: echo "prerelease=true" >> $GITHUB_ENV
+        run: echo "prerelease=true" >> $env:GITHUB_ENV
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2.3.0
