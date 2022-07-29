@@ -57,13 +57,9 @@ jobs:
   call-tests-linux:
     needs: pre-release
     uses: ./.github/workflows/tests-linux.yml
-    with:
-      pre-release: true
     secrets: inherit
 
   call-tests-windows:
     needs: pre-release
     uses: ./.github/workflows/tests-windows.yml
-    with:
-      pre-release: true
     secrets: inherit

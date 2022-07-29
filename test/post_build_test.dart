@@ -6,6 +6,8 @@ import 'package:test/test.dart';
 import 'common.dart';
 
 void main() {
+  final bool isPrerelease = Platform.environment['GITHUB_REF_NAME'] == 'latest';
+
   group('Portable:', () {
     final String linuxPortableArchivePath =
         '$workspace/artifacts/linux-artifacts/IncredibleApp-Linux-Portable.tar.gz';
@@ -29,7 +31,7 @@ void main() {
         await extractFileToDisk(inPath, outPath);
         final buildFile = File('$outPath${Platform.pathSeparator}BUILD');
         final exists = await buildFile.exists();
-        expect(exists, true);
+        expect(exists, isPrerelease ? true : false);
       },
       // Longer timeout required for Linux.
       timeout: Platform.isLinux ? Timeout(Duration(minutes: 2)) : null,
