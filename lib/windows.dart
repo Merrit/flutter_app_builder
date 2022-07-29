@@ -49,6 +49,8 @@ class Windows {
   }
 
   Future<void> package() async {
+    final githubAction = Platform.environment['GITHUB_ACTION'];
+    print('githubAction: $githubAction');
     _log.info('Packaging Windows build.');
     await _createInstaller();
     await _copyVCRuntime();
