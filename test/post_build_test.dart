@@ -17,14 +17,14 @@ Future<void> main() async {
 
   group('Portable:', () {
     String linuxPortableArchivePath;
-    linuxPortableArchivePath = Platform.isLinux
-        ? 'example/output/$linuxPortableArchiveName' // Local
-        : '$workspace/artifacts/linux-artifacts/$linuxPortableArchiveName';
+    linuxPortableArchivePath = runningInCI
+        ? '$workspace/artifacts/linux-artifacts/$linuxPortableArchiveName'
+        : 'example/output/$linuxPortableArchiveName'; // Local
 
     String windowsPortableArchivePath;
-    windowsPortableArchivePath = Platform.isWindows
-        ? 'example\\output\\$windowsPortableArchiveName' // Local
-        : '$workspace\\artifacts\\windows-artifacts\\$windowsPortableArchiveName';
+    windowsPortableArchivePath = runningInCI
+        ? '$workspace\\artifacts\\windows-artifacts\\$windowsPortableArchiveName'
+        : 'example\\output\\$windowsPortableArchiveName'; // Local
 
     final File portableArchive = File(
       Platform.isLinux ? linuxPortableArchivePath : windowsPortableArchivePath,
