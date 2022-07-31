@@ -5,14 +5,26 @@ import 'package:test/test.dart';
 
 import 'common.dart';
 
-void main() {
-  final isPrerelease = Platform.environment['GITHUB_WORKFLOW'] == 'Pre-Release';
+const String linuxPortableArchiveName = 'IncredibleApp-Linux-Portable.tar.gz';
+const String windowsPortableArchiveName = 'IncredibleApp-Windows-Portable.zip';
+
+late final Directory tempDirectory;
+late final String tempDirPath;
+
+Future<void> main() async {
+  tempDirPath = tempDir.path;
+  if (!runningInCI) await runBuild();
 
   group('Portable:', () {
-    final String linuxPortableArchivePath =
-        '$workspace/artifacts/linux-artifacts/IncredibleApp-Linux-Portable.tar.gz';
-    final String windowsPortableArchivePath =
-        '$workspace\\artifacts\\windows-artifacts\\IncredibleApp-Windows-Portable.zip';
+    String linuxPortableArchivePath;
+    linuxPortableArchivePath = Platform.isLinux
+        ? 'example/output/$linuxPortableArchiveName' // Local
+        : '$workspace/artifacts/linux-artifacts/$linuxPortableArchiveName';
+
+    String windowsPortableArchivePath;
+    windowsPortableArchivePath = Platform.isWindows
+        ? 'example\\output\\$windowsPortableArchiveName' // Local
+        : '$workspace\\artifacts\\windows-artifacts\\$windowsPortableArchiveName';
 
     final File portableArchive = File(
       Platform.isLinux ? linuxPortableArchivePath : windowsPortableArchivePath,
@@ -36,43 +48,19 @@ void main() {
       // Longer timeout required for Linux.
       timeout: Platform.isLinux ? Timeout(Duration(minutes: 2)) : null,
     );
-
-    test('debug', () async {
-      print('Tree for temp dir:');
-      final String linuxCommand = 'tree $tempDirPath';
-      final String windowsCommand = 'tree $tempDirPath /F';
-      await runCommand(
-        command: Platform.isWindows ? windowsCommand : linuxCommand,
-      );
-    });
   });
 }
 
-Future<String> runCommand({
-  required String command,
-}) async {
-  String executable;
-  List<String> arguments;
-
-  if (Platform.isWindows) {
-    executable = 'powershell';
-    arguments = [command];
-  } else {
-    executable = 'bash';
-    arguments = ['-c', command];
-  }
-
-  print('running on $executable: $command');
-
-  final result = await Process.run(executable, arguments);
-
-  if (result.stderr != '') {
-    print('\n${result.stderr}');
-  }
-
-  if (result.stdout != '') {
-    print('\n${result.stdout}');
-  }
-
-  return result.stdout;
+/// Build artifacts locally, when not running in CI.
+Future<void> runBuild() async {
+  String commandSeparator = Platform.isWindows ? '`' : '\\';
+  String platforms = 'android';
+  if (Platform.isLinux) platforms += ',linux';
+  if (Platform.isWindows) platforms += ',windows';
+  await runCommand(
+    command: '''
+cd example; $commandSeparator
+flutter pub get; $commandSeparator
+flutter pub run flutter_app_builder --platforms=$platforms''',
+  );
 }
