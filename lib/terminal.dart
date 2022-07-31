@@ -21,7 +21,7 @@ abstract class Terminal {
       arguments = ['-c', command];
     }
 
-    _log.info('running on $executable: $command');
+    _log.info('running on $executable:\n$command');
 
     final result = await Process.run(executable, arguments);
 
