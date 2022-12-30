@@ -35,6 +35,7 @@ class Linux {
   Future<void> package() async {
     _log.info('Packaging Linux build.');
     await _addBuildInfo();
+    await _addReadme();
     await _compressPortable();
     await _createPortableHash();
   }
@@ -45,6 +46,14 @@ class Linux {
 
     final buildFile = File('$_buildPath/BUILD');
     await buildFile.writeAsString(DateTime.now().toUtc().toString());
+  }
+
+  Future<void> _addReadme() async {
+    final readme = File('README.md');
+    final exists = await readme.exists();
+    if (!exists) return;
+
+    await readme.copy('$_buildPath/README.md');
   }
 
   // Using bash commands because the `archive` package doesn't seem to

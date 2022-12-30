@@ -50,9 +50,18 @@ class Windows {
 
   Future<void> package() async {
     _log.info('Packaging Windows build.');
+    await _addReadme();
     await _createInstaller();
     await _copyVCRuntime();
     await _compressPortable();
+  }
+
+  Future<void> _addReadme() async {
+    final readme = File('README.md');
+    final exists = await readme.exists();
+    if (!exists) return;
+
+    await readme.copy('$_buildPath\\README.md');
   }
 
   Future<void> _createInstaller() async {
