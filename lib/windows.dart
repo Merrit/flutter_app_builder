@@ -67,20 +67,28 @@ class Windows {
   Future<void> _createInstaller() async {
     _log.info('Creating Windows msix installer.');
 
+    String command = 'flutter pub run msix:create -v '
+        '--build-windows=false '
+        '--capabilities="${_env.msixCapabilities}" '
+        '--trim-logo=false '
+        '--display-name="${_env.appDisplayName}" '
+        '--identity-name="${_env.msixIdentityName}" '
+        '--logo-path="${_env.msixIconPath}" '
+        '--output-path="${_env.outputDir.absolute.path}" '
+        '--output-name="${_env.appDisplayName}-Windows-Installer" ';
+
+    if (_env.msixPublisher != null) {
+      // Building for Microsoft Store.
+      command += '--store ';
+      command += '--publisher="${_env.msixPublisher}" ';
+      command += '--publisher-display-name="${_env.author}" ';
+      command += '--install-certificate=false ';
+    }
+
+    command = command.trimRight();
+
     await Terminal.runCommand(
-      command: 'flutter pub run msix:create -v '
-          '--store '
-          '--build-windows=false '
-          '--install-certificate=false '
-          '--capabilities="${_env.msixCapabilities}" '
-          '--trim-logo=false '
-          '--display-name="${_env.appDisplayName}" '
-          '--publisher-display-name="${_env.author}" '
-          '--publisher="${_env.msixPublisher}" '
-          '--identity-name="${_env.msixIdentityName}" '
-          '--logo-path="${_env.msixIconPath}" '
-          '--output-path="${_env.outputDir.absolute.path}" '
-          '--output-name="${_env.appDisplayName}-Windows-Installer"',
+      command: command,
     );
   }
 

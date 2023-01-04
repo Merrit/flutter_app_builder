@@ -22,7 +22,7 @@ class Environment {
   final String identifier;
 
   final String msixIdentityName;
-  final String msixPublisher;
+  final String? msixPublisher;
 
   /// Path to the icon to supply to the msix installer.
   ///
@@ -76,8 +76,7 @@ class Environment {
       identifier: argResults['identifier'] ?? pubspec.identifier ?? '',
       msixIdentityName:
           argResults['msix-identity-name'] ?? pubspec.msixIdentityName ?? '',
-      msixPublisher:
-          argResults['msix-publisher'] ?? pubspec.msixPublisher ?? '',
+      msixPublisher: argResults['msix-publisher'] ?? pubspec.msixPublisher,
       msixIconPath: argResults['msix-icon-path'] ?? pubspec.msixIconPath ?? '',
       msixCapabilities:
           argResults['msix-capabilities'] ?? pubspec.msixCapabilities ?? '',
