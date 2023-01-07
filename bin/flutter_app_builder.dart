@@ -3,19 +3,14 @@ import 'dart:io';
 import 'package:args/args.dart';
 import 'package:flutter_app_builder/builder.dart';
 import 'package:flutter_app_builder/github.dart';
+import 'package:flutter_app_builder/logging_manager.dart';
 import 'package:flutter_app_builder/pubspec.dart';
 import 'package:flutter_app_builder/dependencies.dart';
 import 'package:flutter_app_builder/environment.dart';
-import 'package:flutter_app_builder/logs.dart';
 import 'package:flutter_app_builder/terminal.dart';
-import 'package:logging/logging.dart';
-
-final _log = Logger('main');
 
 Future<void> main(List<String> arguments) async {
-  initializeLogger();
-
-  _log.info('Initializing Flutter App Builder.');
+  print('Initializing Flutter App Builder.');
 
   final parser = ArgParser()
     ..addOption('app-display-name')
@@ -28,19 +23,25 @@ Future<void> main(List<String> arguments) async {
     ..addMultiOption(
       'platforms',
       allowed: ['linux', 'windows', 'android'],
+    )
+    ..addFlag(
+      'verbose',
+      abbr: 'v',
     );
 
   final ArgResults argResults = parser.parse(arguments);
 
+  await LoggingManager.initialize(verbose: argResults['verbose']);
+
   if (!argResults.wasParsed('platforms')) {
-    _log.severe('No target platforms were specified.');
+    log.e('No target platforms were specified.');
     exit(1);
   }
 
   final targets = parser.parsePlatforms(
     argResults['platforms'] as List<String>,
   );
-  _log.info('Building for target platforms: $targets');
+  log.v('Building for target platforms: $targets');
 
   final pubspecFile = File('pubspec.yaml');
   final pubspec = Pubspec(pubspecString: await pubspecFile.readAsString());
@@ -66,19 +67,19 @@ Future<void> main(List<String> arguments) async {
     await GitHub.instance.uploadArtifactsToDraftRelease();
   }
 
-  _log.info('Finished building and packaging Flutter app.');
+  log.v('Finished building and packaging Flutter app.');
 }
 
 Future<void> cleanOutputDirectory() async {
   final output = Directory('output');
   if (output.existsSync()) {
-    _log.info('Cleaning output directory.');
+    log.v('Cleaning output directory.');
     await output.delete(recursive: true);
   }
 }
 
 Future<void> getPackages() async {
-  _log.info('flutter pub get');
+  log.v('flutter pub get');
   await Terminal.runCommand(command: 'flutter pub get');
 }
 
@@ -97,7 +98,7 @@ void verifyPubspecVersion() {
       '${env.version.major}.${env.version.minor}.${env.version.patch}';
 
   if (githubTagVersion != pubspecVersion) {
-    _log.severe('''
+    log.e('''
 Pubspec version does not match GitHub tag.
 Did you forget to bump the version in Pubspec?
 Pubspec version is: $pubspecVersion

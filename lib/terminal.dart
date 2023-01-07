@@ -1,10 +1,7 @@
 import 'dart:io';
 
-import 'package:logging/logging.dart';
-
 import 'environment.dart';
-
-final _log = Logger('Terminal');
+import 'logging_manager.dart';
 
 abstract class Terminal {
   static Future<String> runCommand({
@@ -21,12 +18,12 @@ abstract class Terminal {
       arguments = ['-c', command];
     }
 
-    _log.info('running on $executable:\n$command');
+    log.v('running on $executable:\n$command');
 
     final result = await Process.run(executable, arguments);
 
     if (result.stderr != '') {
-      _log.severe('\n${result.stderr}');
+      log.e('\n${result.stderr}');
     }
 
     return result.stdout;

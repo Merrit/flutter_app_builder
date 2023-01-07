@@ -1,12 +1,9 @@
 import 'dart:io';
 
-import 'package:logging/logging.dart';
-
 import 'constants.dart';
 import 'environment.dart';
+import 'logging_manager.dart';
 import 'terminal.dart';
-
-final _log = Logger('Windows');
 
 class Windows {
   final String _buildPath = BuildPath.windows;
@@ -29,7 +26,7 @@ class Windows {
   /// Updates the `Runner.rc` file for the Windows build so it has the correct
   /// version information. (windows/runner/Runner.rc)
   Future<void> updateVersion() async {
-    _log.info('Updating Windows version string.');
+    log.v('Updating Windows version string.');
 
     final version = Environment.instance.version;
 
@@ -49,7 +46,7 @@ class Windows {
   }
 
   Future<void> package() async {
-    _log.info('Packaging Windows build.');
+    log.v('Packaging Windows build.');
     await _addReadme();
     await _createInstaller();
     await _copyVCRuntime();
@@ -65,23 +62,24 @@ class Windows {
   }
 
   Future<void> _createInstaller() async {
-    _log.info('Creating Windows msix installer.');
+    log.v('Creating Windows msix installer.');
 
     String command = 'flutter pub run msix:create -v '
         '--build-windows=false '
         '--capabilities="${_env.msixCapabilities}" '
         '--trim-logo=false '
         '--display-name="${_env.appDisplayName}" '
-        '--identity-name="${_env.msixIdentityName}" '
         '--logo-path="${_env.msixIconPath}" '
         '--output-path="${_env.outputDir.absolute.path}" '
         '--output-name="${_env.appDisplayName}-Windows-Installer" ';
 
     if (_env.msixPublisher != null) {
       // Building for Microsoft Store.
+      log.v('Building with config for Microsoft Store.');
       command += '--store ';
       command += '--publisher="${_env.msixPublisher}" ';
       command += '--publisher-display-name="${_env.author}" ';
+      command += '--identity-name="${_env.msixIdentityName}" ';
       command += '--install-certificate=false ';
     }
 

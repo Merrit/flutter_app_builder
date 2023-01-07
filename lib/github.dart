@@ -1,11 +1,8 @@
 import 'dart:io';
 
-import 'package:logging/logging.dart';
-
 import 'environment.dart';
+import 'logging_manager.dart';
 import 'terminal.dart';
-
-final _log = Logger('GitHub');
 
 class GitHub {
   final _env = Environment.instance;
@@ -48,7 +45,7 @@ class GitHub {
     // Therefore, if the event is not a push we aren't making a release.
     if (eventName != 'push') return;
 
-    _log.info('Uploading artifacts to a draft release');
+    log.v('Uploading artifacts to a draft release');
 
     String command;
 

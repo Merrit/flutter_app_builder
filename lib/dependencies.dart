@@ -1,10 +1,7 @@
 import 'dart:io';
 
-import 'package:logging/logging.dart';
-
 import 'environment.dart';
-
-final _log = Logger('Dependencies');
+import 'logging_manager.dart';
 
 Future<void> installDependencies() async {
   final env = Environment.instance;
@@ -15,7 +12,7 @@ Future<void> installDependencies() async {
 }
 
 Future<void> _installFlutterDependencies() async {
-  _log.info('Installing dependencies for building Flutter on Linux.');
+  log.v('Installing dependencies for building Flutter on Linux.');
 
   final result = await Process.run('bash', [
     '-c',
@@ -23,7 +20,7 @@ Future<void> _installFlutterDependencies() async {
   ]);
 
   if (result.stderr != '') {
-    _log.severe('Failed to install Flutter dependencies: ${result.stderr}');
+    log.e('Failed to install Flutter dependencies: ${result.stderr}');
     exit(1);
   }
 }

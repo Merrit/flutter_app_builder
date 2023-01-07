@@ -1,12 +1,10 @@
 import 'dart:io';
 
 import 'package:args/args.dart';
-import 'package:logging/logging.dart';
 import 'package:pub_semver/pub_semver.dart';
 
+import 'logging_manager.dart';
 import 'pubspec.dart';
-
-final _log = Logger('Environment');
 
 class Environment {
   /// Identifying name, eg `app_name`.
@@ -66,7 +64,7 @@ class Environment {
     final Map<String, String> env = Platform.environment;
 
     final bool runningInGitubCI = env['GITHUB_ACTIONS'] == 'true';
-    _log.info('Running in GitHub workflow: $runningInGitubCI');
+    log.v('Running in GitHub workflow: $runningInGitubCI');
 
     instance = Environment._(
       appName: pubspec.name,

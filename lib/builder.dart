@@ -1,14 +1,11 @@
 import 'dart:io';
 
-import 'package:logging/logging.dart';
-
 import 'android.dart';
 import 'environment.dart';
 import 'linux.dart';
+import 'logging_manager.dart';
 import 'terminal.dart';
 import 'windows.dart';
-
-final _log = Logger('Builder');
 
 // TODO: De-duplicate a bunch of this stuff. Probably should be all in this
 // Builder class.. Set variables like path once at the beginning that steps can
@@ -41,7 +38,7 @@ class Builder {
   }
 
   Future<String> _buildPlatform(String platform) async {
-    _log.info('Running build for $platform');
+    log.v('Running build for $platform');
 
     return await Terminal.runCommand(
       command: 'flutter build -v $platform --release',
