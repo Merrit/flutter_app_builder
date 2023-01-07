@@ -8,13 +8,13 @@ environment:
 dependencies:
   args: ^2.3.0
   crypto: ^3.0.1
-  intl: ^0.17.0
-  logging: ^1.0.2
+  intl: ^0.18.0
+  logger: ^1.1.0
   pub_semver: ^2.1.1
   yaml: ^3.1.0
 
 dev_dependencies:
   archive: ^3.3.1
-  lints: ^1.0.0
-  msix: ^1.0.2
+  lints: ^2.0.1
+  msix: ^3.7.0
   test: ^1.16.0

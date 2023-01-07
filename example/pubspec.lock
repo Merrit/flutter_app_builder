@@ -136,7 +136,7 @@ packages:
       name: intl
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.17.0"
+    version: "0.18.0"
   js:
     dependency: transitive
     description:
@@ -151,10 +151,10 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.1"
-  logging:
+  logger:
     dependency: transitive
     description:
-      name: logging
+      name: logger
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.0"
