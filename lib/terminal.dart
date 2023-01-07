@@ -15,7 +15,7 @@ abstract class Terminal {
 
     if (Environment.instance.targetingWindows) {
       executable = 'powershell';
-      arguments = [command];
+      arguments = ['-NoProfile', '-NonInteractive', command];
     } else {
       executable = 'bash';
       arguments = ['-c', command];
