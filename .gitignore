@@ -6,3 +6,13 @@
 build/
 .flutter-plugins-dependencies
 .flutter-plugins
+
+# ---------------------------------------------------------------------------- #
+#                                    Custom                                    #
+# ---------------------------------------------------------------------------- #
+
+# Some generated Flutter engine files keep getting added to git.
+generated*
+
+# Test coverage report.
+coverage/
