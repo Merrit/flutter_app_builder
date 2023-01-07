@@ -30,6 +30,6 @@ flutter_app_builder:
   author: "Amazing Coder"
   identifier: com.example.incredibleapp
   msix_identity_name: com.example.incredibleapp
-  msix_publisher: CN=0AA9AN0R-36HN-4N7F-JJF4-E300K747CB9D
+  # msix_publisher: CN=0AA9AN0R-36HN-4N7F-JJF4-E300K747CB9D
   msix_icon_path: assets\icons\com.example.incredibleapp.png
   msix_capabilities: internetClient
