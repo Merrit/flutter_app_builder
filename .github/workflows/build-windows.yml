@@ -41,7 +41,7 @@ jobs:
       - name: Run build script
         env:
           GITHUB_TOKEN: ${{ secrets.RELEASES_TOKEN }}
-        run: flutter pub run flutter_app_builder --platforms=windows
+        run: flutter pub run flutter_app_builder -v --platforms=windows
         working-directory: example
 
       # ---------------------------------- Upload ---------------------------- #
