@@ -21,7 +21,6 @@ class Builder {
           break;
         case Target.windows:
           final windows = Windows();
-          await windows.updateVersion();
           await _buildPlatform('windows');
           await windows.package();
           break;
