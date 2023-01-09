@@ -49,6 +49,7 @@ class Windows {
     log.v('Packaging Windows build.');
     await _addReadme();
     await _createInstaller();
+    await _createMsixInstaller();
     await _copyVCRuntime();
     await _compressPortable();
   }
@@ -62,6 +63,14 @@ class Windows {
   }
 
   Future<void> _createInstaller() async {
+    log.v('Creating Windows installer.');
+
+    await Terminal.runCommand(
+      command: r'iscc packaging\windows\inno_setup.iss',
+    );
+  }
+
+  Future<void> _createMsixInstaller() async {
     log.v('Creating Windows msix installer.');
 
     String command = 'flutter pub run msix:create -v '
@@ -71,7 +80,7 @@ class Windows {
         '--display-name="${_env.appDisplayName}" '
         '--logo-path="${_env.msixIconPath}" '
         '--output-path="${_env.outputDir.absolute.path}" '
-        '--output-name="${_env.appDisplayName}-Windows-Installer" ';
+        '--output-name="${_env.appDisplayName}-Windows-Store-Installer" ';
 
     if (_env.msixPublisher != null) {
       // Building for Microsoft Store.
