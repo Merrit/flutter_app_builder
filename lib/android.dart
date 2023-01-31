@@ -9,17 +9,17 @@ class Android {
 
   Future<void> moveAppBundle() async {
     log.v('Moving appbundle to output directory.');
-    final appBundle = File(BuildPath.androidBundle + '/app-release.aab');
+    final appBundle = File('${BuildPath.androidBundle}/app-release.aab');
     await appBundle.rename(
-      _env.outputDir.path + '/${_env.appDisplayName}-Android.aab',
+      '${_env.outputDir.path}/${_env.appDisplayName}-Android.aab',
     );
   }
 
   Future<void> moveApk() async {
     log.v('Moving apk to output directory.');
-    final appBundle = File(BuildPath.androidAPK + '/app-release.apk');
+    final appBundle = File('${BuildPath.androidAPK}/app-release.apk');
     await appBundle.rename(
-      _env.outputDir.path + '/${_env.appDisplayName}-Android.apk',
+      '${_env.outputDir.path}/${_env.appDisplayName}-Android.apk',
     );
   }
 }

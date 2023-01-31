@@ -25,7 +25,7 @@ class Linux {
     return Linux._(
       portableArchiveName: portableArchiveName,
       portableArchiveInOutput: File(
-        env.outputDir.path + '/$portableArchiveName',
+        '${env.outputDir.path}/$portableArchiveName',
       ),
     );
   }
@@ -73,7 +73,7 @@ cd ${_env.projectRoot.absolute.path}''',
     final String sha256 = await portableArchiveInOutput.sha256sum();
     log.v('Linux portable sha256: $sha256');
     final sha256File = File(
-      _env.outputDir.path + '/${_env.appDisplayName}-Linux-Portable.sha256sum',
+      '${_env.outputDir.path}/${_env.appDisplayName}-Linux-Portable.sha256sum',
     );
     await sha256File.writeAsString(sha256);
   }
