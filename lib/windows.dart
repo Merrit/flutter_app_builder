@@ -3,6 +3,7 @@ import 'dart:io';
 import 'constants.dart';
 import 'environment.dart';
 import 'logging_manager.dart';
+import 'pubspec.dart';
 import 'terminal.dart';
 
 class Windows {
@@ -59,6 +60,10 @@ class Windows {
         '--logo-path="${_env.msixIconPath}" '
         '--output-path="${_env.outputDir.absolute.path}" '
         '--output-name="${_env.appDisplayName}-Windows-Store-Installer" ';
+
+    if (Pubspec.instance.languages != null) {
+      command += '--languages="${Pubspec.instance.languages!.join(',')}" ';
+    }
 
     if (_env.msixPublisher != null) {
       // Building for Microsoft Store.

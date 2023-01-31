@@ -38,6 +38,10 @@ void main() {
       expect(pubspec.identifier, 'com.example.incredibleapp');
     });
 
+    test('languages is populated', () {
+      expect(pubspec.languages, ['en', 'de']);
+    });
+
     test('has an msix identity name', () {
       expect(pubspec.msixIdentityName, 'com.example.incredibleapp');
     });
