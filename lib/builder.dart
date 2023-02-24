@@ -12,7 +12,14 @@ import 'windows.dart';
 // refer to without having to constantly check the platform.
 
 class Builder {
-  Future<void> run() async {
+  Future<void> run({
+    /// Whether or not to run the build_runner command.
+    required bool runBuildRunner,
+  }) async {
+    if (runBuildRunner) {
+      await _runBuildRunner();
+    }
+
     for (var target in Environment.instance.targets) {
       switch (target) {
         case Target.linux:
@@ -34,6 +41,18 @@ class Builder {
     }
 
     await _validateArchiveFilenames();
+  }
+
+  /// Runs the build_runner command.
+  ///
+  /// This is used to generate the code for things like freezed.
+  Future<void> _runBuildRunner() async {
+    log.v('Running build_runner');
+
+    await Terminal.runCommand(
+      command:
+          'flutter pub run build_runner build --delete-conflicting-outputs',
+    );
   }
 
   Future<String> _buildPlatform(String platform) async {

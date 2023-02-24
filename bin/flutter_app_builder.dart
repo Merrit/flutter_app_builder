@@ -44,7 +44,8 @@ Future<void> main(List<String> arguments) async {
   log.v('Building for target platforms: $targets');
 
   final pubspecFile = File('pubspec.yaml');
-  final pubspec = Pubspec(pubspecString: await pubspecFile.readAsString());
+  final pubspecString = pubspecFile.readAsStringSync();
+  final pubspec = Pubspec(pubspecString: pubspecString);
 
   await cleanOutputDirectory();
 
@@ -61,7 +62,9 @@ Future<void> main(List<String> arguments) async {
     verifyPubspecVersion();
   }
 
-  await Builder().run();
+  await Builder().run(
+    runBuildRunner: pubspecString.contains('build_runner'),
+  );
 
   if (environment.runningInGithubCI) {
     await GitHub.instance.uploadArtifactsToDraftRelease();
