@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:crypto/crypto.dart';
+import 'package:flutter_app_builder/github.dart';
 import 'package:flutter_app_builder/terminal.dart';
 
 import 'constants.dart';
@@ -47,6 +48,8 @@ class Linux {
   }
 
   Future<void> _addReadme() async {
+    if (GitHub.instance.eventName == 'pull_request') return;
+
     final readme = File('README.md');
     final exists = await readme.exists();
     if (!exists) return;
