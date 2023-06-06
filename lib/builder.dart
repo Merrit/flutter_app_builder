@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:flutter_app_builder/github.dart';
+
 import 'android.dart';
 import 'environment.dart';
 import 'linux.dart';
@@ -58,8 +60,11 @@ class Builder {
   Future<String> _buildPlatform(String platform) async {
     log.v('Running build for $platform');
 
+    bool buildReleaseVersion = GitHub.instance.eventName != 'pull_request';
+    String buildType = buildReleaseVersion ? 'release' : 'debug';
+
     return await Terminal.runCommand(
-      command: 'flutter build -v $platform --release',
+      command: 'flutter build -v $platform --$buildType',
     );
   }
 
