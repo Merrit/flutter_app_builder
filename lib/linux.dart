@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:crypto/crypto.dart';
-import 'package:flutter_app_builder/github.dart';
 import 'package:flutter_app_builder/terminal.dart';
 
 import 'constants.dart';
@@ -9,21 +8,23 @@ import 'environment.dart';
 import 'logging_manager.dart';
 
 class Linux {
-  final String _buildPath = BuildPath.linux;
+  final String _buildPath;
   final Environment _env = Environment.instance;
   final String portableArchiveName;
   final File portableArchiveInOutput;
 
-  Linux._({
+  Linux._(
+    this._buildPath, {
     required this.portableArchiveName,
     required this.portableArchiveInOutput,
   });
 
-  factory Linux() {
+  factory Linux({required BuildPath buildPath}) {
     final env = Environment.instance;
     final portableArchiveName = '${env.appDisplayName}-Linux-Portable.tar.gz';
 
     return Linux._(
+      buildPath.linux,
       portableArchiveName: portableArchiveName,
       portableArchiveInOutput: File(
         '${env.outputDir.path}/$portableArchiveName',
@@ -48,8 +49,6 @@ class Linux {
   }
 
   Future<void> _addReadme() async {
-    if (GitHub.instance.eventName == 'pull_request') return;
-
     final readme = File('README.md');
     final exists = await readme.exists();
     if (!exists) return;

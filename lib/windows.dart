@@ -7,19 +7,23 @@ import 'pubspec.dart';
 import 'terminal.dart';
 
 class Windows {
-  final String _buildPath = BuildPath.windows;
-  final Directory _buildDir = Directory(BuildPath.windows);
+  final String _buildPath;
+  final Directory _buildDir;
   final Environment _env;
   final String zipFileName;
 
-  Windows._({
+  Windows._(
+    this._buildPath,
+    this._buildDir, {
     required this.zipFileName,
   }) : _env = Environment.instance;
 
-  factory Windows() {
+  factory Windows({required BuildPath buildPath}) {
     final env = Environment.instance;
 
     return Windows._(
+      buildPath.windows,
+      Directory(buildPath.windows),
       zipFileName: '${env.appDisplayName}-Windows-Portable.zip',
     );
   }

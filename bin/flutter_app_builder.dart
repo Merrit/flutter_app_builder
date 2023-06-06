@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:args/args.dart';
 import 'package:flutter_app_builder/builder.dart';
+import 'package:flutter_app_builder/constants.dart';
 import 'package:flutter_app_builder/github.dart';
 import 'package:flutter_app_builder/logging_manager.dart';
 import 'package:flutter_app_builder/pubspec.dart';
@@ -38,6 +39,8 @@ Future<void> main(List<String> arguments) async {
     exit(1);
   }
 
+  final BuildPath buildPath = BuildPath();
+
   final targets = parser.parsePlatforms(
     argResults['platforms'] as List<String>,
   );
@@ -63,6 +66,7 @@ Future<void> main(List<String> arguments) async {
   }
 
   await Builder().run(
+    buildPath: buildPath,
     runBuildRunner: pubspecString.contains('build_runner'),
   );
 

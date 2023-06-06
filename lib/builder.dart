@@ -1,8 +1,7 @@
 import 'dart:io';
 
-import 'package:flutter_app_builder/github.dart';
-
 import 'android.dart';
+import 'constants.dart';
 import 'environment.dart';
 import 'linux.dart';
 import 'logging_manager.dart';
@@ -15,6 +14,8 @@ import 'windows.dart';
 
 class Builder {
   Future<void> run({
+    required BuildPath buildPath,
+
     /// Whether or not to run the build_runner command.
     required bool runBuildRunner,
   }) async {
@@ -26,18 +27,19 @@ class Builder {
       switch (target) {
         case Target.linux:
           await _buildPlatform('linux');
-          await Linux().package();
+          await Linux(buildPath: buildPath).package();
           break;
         case Target.windows:
-          final windows = Windows();
+          final windows = Windows(buildPath: buildPath);
           await _buildPlatform('windows');
           await windows.package();
           break;
         case Target.android:
           await _buildPlatform('appbundle');
-          await Android().moveAppBundle();
+          final android = Android(buildPath);
+          await android.moveAppBundle();
           await _buildPlatform('apk');
-          await Android().moveApk();
+          await android.moveApk();
           break;
       }
     }
@@ -60,7 +62,8 @@ class Builder {
   Future<String> _buildPlatform(String platform) async {
     log.v('Running build for $platform');
 
-    bool buildReleaseVersion = GitHub.instance.eventName != 'pull_request';
+    bool buildReleaseVersion =
+        Platform.environment['GITHUB_EVENT_NAME'] != 'pull_request';
     String buildType = buildReleaseVersion ? 'release' : 'debug';
 
     return await Terminal.runCommand(
