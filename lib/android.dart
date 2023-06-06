@@ -12,7 +12,10 @@ class Android {
 
   Future<void> moveAppBundle() async {
     log.v('Moving appbundle to output directory.');
-    final appBundle = File('${_buildPath.androidBundle}/app-release.aab');
+    bool isReleaseBuild =
+        Platform.environment['GITHUB_EVENT_NAME'] != 'pull_request';
+    String buildType = isReleaseBuild ? 'release' : 'debug';
+    final appBundle = File('${_buildPath.androidBundle}/app-$buildType.aab');
     await appBundle.rename(
       '${_env.outputDir.path}/${_env.appDisplayName}-Android.aab',
     );
@@ -20,7 +23,10 @@ class Android {
 
   Future<void> moveApk() async {
     log.v('Moving apk to output directory.');
-    final appBundle = File('${_buildPath.androidAPK}/app-release.apk');
+    bool isReleaseBuild =
+        Platform.environment['GITHUB_EVENT_NAME'] != 'pull_request';
+    String buildType = isReleaseBuild ? 'release' : 'debug';
+    final appBundle = File('${_buildPath.androidAPK}/app-$buildType.apk');
     await appBundle.rename(
       '${_env.outputDir.path}/${_env.appDisplayName}-Android.apk',
     );
