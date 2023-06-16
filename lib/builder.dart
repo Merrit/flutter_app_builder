@@ -64,7 +64,17 @@ class Builder {
 
     bool buildReleaseVersion =
         Platform.environment['GITHUB_EVENT_NAME'] != 'pull_request';
-    String buildType = buildReleaseVersion ? 'release' : 'debug';
+
+    final bool buildingAndroid = platform == 'appbundle' || platform == 'apk';
+
+    String buildType;
+    if (buildingAndroid) {
+      // Android builds can't access the keystore in GitHub PR CI runs, so
+      // we have to use debug builds.
+      buildType = buildReleaseVersion ? 'release' : 'debug';
+    } else {
+      buildType = 'release';
+    }
 
     return await Terminal.runCommand(
       command: 'flutter build -v $platform --$buildType',
