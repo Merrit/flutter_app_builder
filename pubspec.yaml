@@ -9,7 +9,7 @@ dependencies:
   args: ^2.3.0
   crypto: ^3.0.1
   intl: any
-  logger: ^1.1.0
+  logger: ^2.0.1
   pub_semver: ^2.1.1
   yaml: ^3.1.0
 

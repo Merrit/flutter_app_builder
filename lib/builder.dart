@@ -51,7 +51,7 @@ class Builder {
   ///
   /// This is used to generate the code for things like freezed.
   Future<void> _runBuildRunner() async {
-    log.v('Running build_runner');
+    log.i('Running build_runner');
 
     await Terminal.runCommand(
       command:
@@ -60,7 +60,7 @@ class Builder {
   }
 
   Future<String> _buildPlatform(String platform) async {
-    log.v('Running build for $platform');
+    log.i('Running build for $platform');
 
     bool buildReleaseVersion =
         Platform.environment['GITHUB_EVENT_NAME'] != 'pull_request';

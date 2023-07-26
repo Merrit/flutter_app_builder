@@ -44,7 +44,7 @@ Future<void> main(List<String> arguments) async {
   final targets = parser.parsePlatforms(
     argResults['platforms'] as List<String>,
   );
-  log.v('Building for target platforms: $targets');
+  log.i('Building for target platforms: $targets');
 
   final pubspecFile = File('pubspec.yaml');
   final pubspecString = pubspecFile.readAsStringSync();
@@ -74,19 +74,19 @@ Future<void> main(List<String> arguments) async {
     await GitHub.instance.uploadArtifactsToDraftRelease();
   }
 
-  log.v('Finished building and packaging Flutter app.');
+  log.i('Finished building and packaging Flutter app.');
 }
 
 Future<void> cleanOutputDirectory() async {
   final output = Directory('output');
   if (output.existsSync()) {
-    log.v('Cleaning output directory.');
+    log.i('Cleaning output directory.');
     await output.delete(recursive: true);
   }
 }
 
 Future<void> getPackages() async {
-  log.v('flutter pub get');
+  log.i('flutter pub get');
   await Terminal.runCommand(command: 'flutter pub get');
 }
 

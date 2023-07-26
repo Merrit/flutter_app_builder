@@ -11,7 +11,7 @@ class Android {
   Android(this._buildPath);
 
   Future<void> moveAppBundle() async {
-    log.v('Moving appbundle to output directory.');
+    log.i('Moving appbundle to output directory.');
     bool isReleaseBuild =
         Platform.environment['GITHUB_EVENT_NAME'] != 'pull_request';
     String buildType = isReleaseBuild ? 'release' : 'debug';
@@ -22,7 +22,7 @@ class Android {
   }
 
   Future<void> moveApk() async {
-    log.v('Moving apk to output directory.');
+    log.i('Moving apk to output directory.');
     bool isReleaseBuild =
         Platform.environment['GITHUB_EVENT_NAME'] != 'pull_request';
     String buildType = isReleaseBuild ? 'release' : 'debug';

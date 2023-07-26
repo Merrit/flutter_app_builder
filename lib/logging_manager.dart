@@ -19,13 +19,13 @@ class LoggingManager {
 
     log = Logger(
       filter: ProductionFilter(),
-      level: (verbose) ? Level.verbose : Level.warning,
+      level: (verbose) ? Level.trace : Level.warning,
       output: MultiOutput(outputs),
       // Colors false because it outputs ugly escape characters to log file.
       printer: PrefixPrinter(PrettyPrinter(colors: false)),
     );
 
-    log.v('Logger initialized.');
+    log.i('Logger initialized.');
 
     return LoggingManager._();
   }

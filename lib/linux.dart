@@ -33,7 +33,7 @@ class Linux {
   }
 
   Future<void> package() async {
-    log.v('Packaging Linux build.');
+    log.i('Packaging Linux build.');
     await _addBuildInfo();
     await _addReadme();
     await _compressPortable();
@@ -73,7 +73,7 @@ cd ${_env.projectRoot.absolute.path}''',
 
   Future<void> _createPortableHash() async {
     final String sha256 = await portableArchiveInOutput.sha256sum();
-    log.v('Linux portable sha256: $sha256');
+    log.i('Linux portable sha256: $sha256');
     final sha256File = File(
       '${_env.outputDir.path}/${_env.appDisplayName}-Linux-Portable.sha256sum',
     );

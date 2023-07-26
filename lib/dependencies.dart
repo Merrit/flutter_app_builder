@@ -12,7 +12,7 @@ Future<void> installDependencies() async {
 }
 
 Future<void> _installFlutterDependencies() async {
-  log.v('Installing dependencies for building Flutter on Linux.');
+  log.i('Installing dependencies for building Flutter on Linux.');
 
   final result = await Process.run('bash', [
     '-c',

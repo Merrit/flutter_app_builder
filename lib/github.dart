@@ -45,7 +45,7 @@ class GitHub {
     // Therefore, if the event is not a push we aren't making a release.
     if (eventName != 'push') return;
 
-    log.v('Uploading artifacts to a draft release');
+    log.i('Uploading artifacts to a draft release');
 
     String command;
 

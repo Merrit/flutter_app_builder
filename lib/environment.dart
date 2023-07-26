@@ -64,7 +64,7 @@ class Environment {
     final Map<String, String> env = Platform.environment;
 
     final bool runningInGitubCI = env['GITHUB_ACTIONS'] == 'true';
-    log.v('Running in GitHub workflow: $runningInGitubCI');
+    log.i('Running in GitHub workflow: $runningInGitubCI');
 
     instance = Environment._(
       appName: pubspec.name,

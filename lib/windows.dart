@@ -29,7 +29,7 @@ class Windows {
   }
 
   Future<void> package() async {
-    log.v('Packaging Windows build.');
+    log.i('Packaging Windows build.');
     await _addReadme();
     await _createInstaller();
     await _createMsixInstaller();
@@ -46,7 +46,7 @@ class Windows {
   }
 
   Future<void> _createInstaller() async {
-    log.v('Creating Windows installer.');
+    log.i('Creating Windows installer.');
 
     await Terminal.runCommand(
       command: r'iscc packaging\windows\inno_setup.iss',
@@ -54,7 +54,7 @@ class Windows {
   }
 
   Future<void> _createMsixInstaller() async {
-    log.v('Creating Windows msix installer.');
+    log.i('Creating Windows msix installer.');
 
     String command = 'flutter pub run msix:create -v '
         '--build-windows=false '
@@ -71,7 +71,7 @@ class Windows {
 
     if (_env.msixPublisher != null) {
       // Building for Microsoft Store.
-      log.v('Building with config for Microsoft Store.');
+      log.i('Building with config for Microsoft Store.');
       command += '--store ';
       command += '--publisher="${_env.msixPublisher}" ';
       command += '--publisher-display-name="${_env.author}" ';
