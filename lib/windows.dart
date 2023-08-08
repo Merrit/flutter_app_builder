@@ -48,8 +48,12 @@ class Windows {
   Future<void> _createInstaller() async {
     log.i('Creating Windows installer.');
 
+    final version = _env.version;
+    final versionString = '${version.major}.${version.minor}.${version.patch}';
+
     await Terminal.runCommand(
-      command: r'iscc packaging\windows\inno_setup.iss',
+      command:
+          'iscc packaging\\windows\\inno_setup.iss /DAppVersion=$versionString',
     );
   }
 
