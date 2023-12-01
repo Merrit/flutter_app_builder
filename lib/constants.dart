@@ -16,7 +16,7 @@ class BuildPath {
 
     return BuildPath._(
       linux: 'build/linux/x64/release/bundle',
-      windows: r'build\windows\runner\Release',
+      windows: r'build\windows\x64\runner\Release',
       macos: 'build/macos/Build/Products/Release',
       androidBundle: isPullRequest ? appBundleDebugPath : appBundleReleasePath,
       androidAPK: 'build/app/outputs/flutter-apk',
