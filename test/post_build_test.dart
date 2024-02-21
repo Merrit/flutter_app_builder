@@ -60,7 +60,7 @@ Future<void> runBuild() async {
   await runCommand(
     command: '''
 cd example; $commandSeparator
-flutter pub get; $commandSeparator
-flutter pub run flutter_app_builder --platforms=$platforms''',
+flutter clean && flutter pub get; $commandSeparator
+flutter pub run flutter_app_builder -v --platforms=$platforms''',
   );
 }
