@@ -60,7 +60,9 @@ class Windows {
   Future<void> _createMsixInstaller() async {
     log.i('Creating Windows msix installer.');
 
-    String command = 'flutter pub run msix:create -v '
+    // Using -v with this command causes `FINE` logs to output to stderr, which
+    // causes the build to fail. So we're not using it.
+    String command = 'flutter pub run msix:create '
         '--build-windows=false '
         '--capabilities="${_env.msixCapabilities}" '
         '--trim-logo=false '
