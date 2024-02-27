@@ -59,7 +59,7 @@ jobs:
       - name: Run build script
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: flutter pub run flutter_app_builder --platforms=android
+        run: flutter pub run flutter_app_builder -v --platforms=android
         working-directory: example
 
       # ---------------------------------- Upload ---------------------------- #

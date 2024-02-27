@@ -40,7 +40,7 @@ jobs:
       - name: Run build script
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: flutter pub run flutter_app_builder --platforms=linux
+        run: flutter pub run flutter_app_builder -v --platforms=linux
         working-directory: example
 
       # ---------------------------------- Upload ---------------------------- #
