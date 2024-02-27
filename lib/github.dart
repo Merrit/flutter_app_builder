@@ -41,22 +41,25 @@ class GitHub {
   }
 
   Future<void> uploadArtifactsToDraftRelease() async {
+    // This is currently being handled by the GitHub Workflow.
+    return;
+
     // Script should only run on push events if they were for a new tag.
     // Therefore, if the event is not a push we aren't making a release.
-    if (eventName != 'push') return;
+    // if (eventName != 'push') return;
 
-    log.i('Uploading artifacts to a draft release');
+    // log.i('Uploading artifacts to a draft release');
 
-    String command;
+    // String command;
 
-    if (_env.targetingWindows) {
-      // (get-item) is needed because `gh` does not auto-expand wildcards.
-      command =
-          'gh release upload $refName (get-item ${_env.outputDir.absolute.path}\\*) --clobber';
-    } else {
-      command = 'gh release upload $refName output/* --clobber';
-    }
+    // if (_env.targetingWindows) {
+    //   // (get-item) is needed because `gh` does not auto-expand wildcards.
+    //   command =
+    //       'gh release upload $refName (get-item ${_env.outputDir.absolute.path}\\*) --clobber';
+    // } else {
+    //   command = 'gh release upload $refName output/* --clobber';
+    // }
 
-    await Terminal.runCommand(command: command);
+    // await Terminal.runCommand(command: command);
   }
 }
