@@ -22,12 +22,15 @@ jobs:
     secrets: inherit
 
   call-build-linux:
+    needs: [call-tests-linux, call-tests-windows]
     uses: ./.github/workflows/build-linux.yml
     secrets: inherit
   call-build-windows:
+    needs: [call-tests-linux, call-tests-windows]
     uses: ./.github/workflows/build-windows.yml
     secrets: inherit
   call-build-android:
+    needs: [call-tests-linux, call-tests-windows]
     uses: ./.github/workflows/build-android.yml
     secrets: inherit
 
