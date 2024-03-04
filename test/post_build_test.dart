@@ -13,7 +13,7 @@ late final String tempDirPath;
 
 Future<void> main() async {
   tempDirPath = tempDir.path;
-  if (!runningInCI) await runBuild();
+  await runBuild();
 
   group('Portable:', () {
     String linuxPortableArchivePath;
