@@ -24,7 +24,7 @@ abstract class Terminal {
 
     if (result.stderr != '') {
       log.e('\n${result.stderr}');
-      printPubLog();
+      await printPubLog();
       exit(1);
     }
 
