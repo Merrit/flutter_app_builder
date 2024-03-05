@@ -35,7 +35,9 @@ abstract class Terminal {
 /// Print the pub log if there is any.
 ///
 /// If there is a log, it should be located at `~/.pub-cache/log/pub_log.txt`.
-void printPubLog() {
+Future<void> printPubLog() async {
+  log.i('Printing pub log');
+
   final String? home = Platform.environment['HOME'];
   if (home == null) {
     log.e('HOME environment variable is not set');
@@ -43,8 +45,12 @@ void printPubLog() {
   }
 
   final pubLog = File('$home/.pub-cache/log/pub_log.txt');
+  final exists = await pubLog.exists();
 
-  if (pubLog.existsSync()) {
-    log.e('\n\npub log:\n${pubLog.readAsStringSync()}');
+  if (!exists) {
+    log.i('pub log does not exist');
+    return;
   }
+
+  log.e('\n\npub log:\n${pubLog.readAsStringSync()}');
 }
