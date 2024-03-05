@@ -36,7 +36,14 @@ abstract class Terminal {
 ///
 /// If there is a log, it should be located at `~/.pub-cache/log/pub_log.txt`.
 void printPubLog() {
-  final pubLog = File('~/.pub-cache/log/pub_log.txt');
+  final String? home = Platform.environment['HOME'];
+  if (home == null) {
+    log.e('HOME environment variable is not set');
+    return;
+  }
+
+  final pubLog = File('$home/.pub-cache/log/pub_log.txt');
+
   if (pubLog.existsSync()) {
     log.e('\n\npub log:\n${pubLog.readAsStringSync()}');
   }
