@@ -50,6 +50,8 @@ jobs:
       - name: Prepare for build
         run: |
           flutter upgrade
+          flutter clean
+          flutter pub upgrade
           flutter pub get
 
       # ----------------------------------- Build ---------------------------- #
