@@ -24,9 +24,20 @@ abstract class Terminal {
 
     if (result.stderr != '') {
       log.e('\n${result.stderr}');
+      printPubLog();
       exit(1);
     }
 
     return result.stdout;
+  }
+}
+
+/// Print the pub log if there is any.
+///
+/// If there is a log, it should be located at `~/.pub-cache/log/pub_log.txt`.
+void printPubLog() {
+  final pubLog = File('~/.pub-cache/log/pub_log.txt');
+  if (pubLog.existsSync()) {
+    log.e('\n\npub log:\n${pubLog.readAsStringSync()}');
   }
 }
