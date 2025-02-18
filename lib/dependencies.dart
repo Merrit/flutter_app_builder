@@ -21,6 +21,5 @@ Future<void> _installFlutterDependencies() async {
 
   if (result.stderr != '') {
     log.e('Failed to install Flutter dependencies: ${result.stderr}');
-    exit(1);
   }
 }
