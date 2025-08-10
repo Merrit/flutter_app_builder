@@ -1,12 +1,6 @@
 import 'dart:io';
 
-import 'environment.dart';
-import 'logging_manager.dart';
-import 'terminal.dart';
-
 class GitHub {
-  final _env = Environment.instance;
-
   /// The name of the event that triggered the workflow.
   ///
   /// For example, `workflow_dispatch`.
